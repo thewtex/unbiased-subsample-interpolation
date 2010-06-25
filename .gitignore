@@ -1,0 +1,9 @@
+*.mha
+*.txt
+*.vtk
+doc/subsample_interpolation_w_cite.rst
+doc/subsample_interpolation_w_math.rst
+doc/subsample_interpolation*odt
+doc/imgmath
+*.odt#
+*.doc
