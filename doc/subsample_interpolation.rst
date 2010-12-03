@@ -37,12 +37,26 @@ ns, which is much larger than the Cramer-Rao Lower Bound (CRLB) for the continuo
 case, 0.024 ns.
 
 This subsample delay estimation problem has been studied extensively in 1D in
-the sonar and radar fields.  
-talk about why subsample interpolation is important -- Cespedes
+the sonar and radar fields.  A number of techniques used the fact that phase of
+the analytic signal's cross-correlation in the vicinity of the signal shift will
+have a slope equivalent to the nominal centroid frequency and zero crossing at
+the shift [Pesavento1999]_.  Grennberg and Sandell described a fast subsample
+delay estimator calculated with the cross correlation of the delayed signal with
+the Hilbert transform of the original signal [Grennberg1994]_.  Pesavento used a
+similar approach by taking the cross-correlation of base-band analytic signals
+from both the original and shifted signal [Pesavento1999]_.  The root is then
+found with an iterative modified Newton method.  This approach only works for
+narrowband signals with small time delays.  For larger time delays, strategies
+have to be employed to prevent phase aliasing.  However, if these approaches can
+be used, they are advantagous because they are very precise with minimal
+computation that can be performed in a single step.
 
 
 1D xcorr techniques
 
+Instead of resampling and recalculation of the cross-correlation, curve fitting
+can be applied.  For example a parabola [Foster1990]_ or cosine fit
+[deJong1990]_ can be used. 
 parametric techniques
 
 bspline technique
