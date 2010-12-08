@@ -74,7 +74,7 @@ Viola and Walker have worked on a sum-of-squared error/cubic spline method
 finding the roots of a polynomial whose order is proportional to the number
 samples in the fit.
 
-As studied by in [Viola2005], a more brute force to determining a more precise
+As studied by in [Viola2005]_, a more brute force to determining a more precise
 signal shift is to resample the image through interpolation before performing
 cross-correlation.  Use of a matched filter during resample may improve the
 result [Lai1999].  Instead of resampling and recalculation of the
@@ -85,7 +85,14 @@ methods are computationally efficient and easy to implement, but they suffer
 from bias because the underlying signal may not conform to the shape chosen.
 [Zahiri-Azar2008,Geiman2000,Jacovitti1993,Moddemeijer1991,Cespedes1995]_.
 
-Cespedes sinc interpolation
+Curve fitting bias can be avoided by instead using signal reconstruction with
+sinc interpolation, which is the maximum likelihood estimator for interpolation
+[Cespedes1995,Boucher1981]_.  Cespedes et al. examined the use of 1D sinc
+reconstruction to locate the cross-correlation peak, and found that it
+significantly out-performs parabolic or cosine interpolation.  Reconstruction is
+computationally expensive compared to curve fitting methods, and an optimization
+method must be utilized to find the peak location.  Cespedes used a binary
+search method to decrease computation times [Cespedes1995]_.
 
 It has also been demonstrated that 2D displacement vector estimates generate
 better results than two-pass 1D displacement estimation
@@ -95,5 +102,13 @@ that iteratively searches for the location where the gradient vectors of the 2D
 complex cross correlation are orthogonal, which exists along the zero-phase
 contour [Ebbini2006]_.
 
-rivaz [automatic differention?] brusseau
+In this paper, we propose the use of a 2D sinc reconstruction method coupled
+with traditional numerical optimization techniques for subsample ultrasound
+displacement estimation.  Since parabolic methods remain the most popular method
+referenced in the literature and to follow the analysis of Cespedes, we compare
+the new method again parabolic and cosine curve fitting.  Performance is
+evaluated as the elastographic signal-to-noise ratio (*SNRe*) in phantoms and
+simulations.  We examine the optimal sinc-filtering window length and type, and
+the computational performance of the Nelder-Mead simplex and a regular step
+gradient descent optimizer.
 
