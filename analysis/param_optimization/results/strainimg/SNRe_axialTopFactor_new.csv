@@ -1,3 +1,4 @@
+axialTopFactor, strain percent, trial, regularization, mean axial strain, axial strain std, axial strain SNRe, mean lateral strain, lateral strain std, lateral strain SNRe
 1.8, 5.0, 6, no_regularization, -0.0353695484927, 0.133013563455, 0.265909337167, 0.012992741413, 0.133031972352, 0.097666306703
 1.8, 5.0, 7, no_regularization, -0.0563488826771, 0.0713325936898, 0.789945798441, 0.0195965705982, 0.0863761647341, 0.226874747895
 1.8, 5.0, 8, no_regularization, -0.0501457100645, 0.0967557191775, 0.518271276269, 0.0266811269675, 0.0973230480968, 0.274150136985
