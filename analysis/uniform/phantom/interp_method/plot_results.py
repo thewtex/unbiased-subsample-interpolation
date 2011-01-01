@@ -64,7 +64,10 @@ class PlotResults( object ):
 
 
 plot_results = PlotResults()
-curves = dict( sinc = 'Sinc - Amoeba' )
+curves = dict( noInterp = 'No Interpolation',
+        sinc = 'Sinc - Amoeba',
+        gradientDescent = 'Sinc - Gradient Descent' )
+#curves = dict( gradientDescent = 'Sinc - Gradient Descent' )
 for curve, curve_name in curves.iteritems():
     r = pylab.csv2rec( 'SNRe_' + curve + '.csv' )
     plot_results.plot_snre_curves( curve, curve_name, r )
