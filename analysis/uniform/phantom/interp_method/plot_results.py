@@ -65,6 +65,7 @@ class PlotResults( object ):
 
 plot_results = PlotResults()
 curves = dict( noInterp = 'No Interpolation',
+        cosine = 'Cosine',
         parabolic = 'Parabolic',
         sinc = 'Sinc - Amoeba',
         gradientDescent = 'Sinc - Gradient Descent' )
