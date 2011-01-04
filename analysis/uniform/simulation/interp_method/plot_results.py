@@ -64,14 +64,13 @@ class PlotResults( object ):
             plt.gca().set_yscale( 'log' )
         plt.ylim( (10**-2, 10**2 ) )
 
-
-
 plot_results = PlotResults()
-curves = dict( noInterp = 'No Interpolation',
-        cosine = 'Cosine',
-        parabolic = 'Parabolic',
-        sinc = 'Sinc - Amoeba',
-        gradientDescent = 'Sinc - Gradient Descent' )
+curves = dict( noInterp_sim = 'No Interpolation',
+        cosine_sim = 'Cosine',
+        #parabolic_sim = 'Parabolic',
+        #sinc_sim = 'Sinc - Amoeba',
+        sinc_sim = 'Sinc - Amoeba' )
+        #gradientDescent_sim = 'Sinc - Gradient Descent' )
 #curves = dict( gradientDescent = 'Sinc - Gradient Descent' )
 for curve, curve_name in curves.iteritems():
     r = pylab.csv2rec( 'SNRe_' + curve + '.csv' )

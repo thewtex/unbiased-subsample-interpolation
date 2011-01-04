@@ -1,0 +1,65 @@
+# MMMStrain options input file.
+---
+files:
+  # The fixed (pre-deformation) image file.
+  fixedImage:   FIXED_IMAGE
+  # The moving (post-deformation) image file.
+  movingImage:  MOVING_IMAGE
+  # File name prefix for output files.
+  outputPrefix: OUTPUT_PREFIX
+  # A known displacement image for comparison.
+  truthImage:   /home/matt/rs/data/simulated_data/fea_dp_fields/images/inclusion_05.0_percent_strain_displacement_field.mha
+
+
+parameters:
+  # Any point with a strain component above the given value in the higher levels
+  # will have its displacement interpolated by surrounding areas.
+  maximumAbsStrainAllowed: 0.15
+  # Control point spacing to image spacing in the approximating B-spline strain
+  # calculation.  A numerical gradient calculator is used if this is set to 1.0.
+  controlPointRatio: 1.0
+  # Upsampling ratio of the input images.
+  upsample: [ 1.0, 2.0 ]
+  # Axial direction of the image.
+  axialDirection: 0
+
+  # Related to the matching block.
+  block:
+    # Block Radius in at the bottom level.
+    bottomBlockRadius: [ 20, 11 ]
+    # Block Radius at the top level.
+    topBlockRadius:    [ 18, 10 ]
+    # Block overlap. 1.0 is no overlap. 0.5 is 50% overlap.
+    blockOverlap:      1.0
+    # In the multiresolution method, scale the matching block by the strain
+    # estimated at higher levels.
+    scaleByStrain:     true
+
+  # Related to the search region.
+  searchRegion:
+    # Search region radius at the top level is the following factor times the block radius.
+    # The factors at intermediate levels between the top level and bottom level
+    # are linearly interpolated.
+    topFactor:  [ 2.4, 3.4 ]
+    # Search region radius at the bottom level is the following factor times the block radius.
+    bottomFactor:  [ 1.1, 1.1 ]
+
+  # Related to the Bayesian regularization.
+  regularization:
+    # Strain regularization parameter.
+    strainSigma: [ 0.15, 0.075 ]
+    # Maximum number of iterations during regularization at the bottom level.
+    maximumIterations: MAXIMUM_ITERATIONS
+
+# Options related the amount of output.
+verbosity:
+  # Write images of the search region sizes at every level.
+  writeSearchRegionImages:     false
+  # Write individual component displacement images in addition to the single
+  # displacement vector image.
+  writeDisplacementVectorComponents: false
+  # Output of a similarity metric image.
+  similarityImage:
+    # Target point for examination in physical units.
+    targetPoint: [ 0.0166789, 0.0375 ]
+...
