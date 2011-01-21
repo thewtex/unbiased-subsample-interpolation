@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 
+import os
 import sys
 
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import pylab
 
+sys.path.insert( 0, os.path.abspath( os.path.join( __file__, '..', '..', '..', '..' )))
+import common.mpl_rc_settings as settings
 
 class PlotResults( object ):
 
@@ -45,6 +48,7 @@ class PlotResults( object ):
                 index_is_reg = self.r['regularization'] == reg
                 strains = list( set( self.r['strain_percent'] ) )
                 strains.sort()
+                strains = strains[:5]
                 s = np.ones( len( strains )) * 10**-5
                 m = np.ones( len( strains )) * 10**-5
                 e = np.ones( len( strains )) * 10**-5
@@ -62,7 +66,7 @@ class PlotResults( object ):
                         m[si] = np.mean( trials )
                         e[si] = 2*np.std( trials )/np.sqrt( len( trials ))
 
-                plt.errorbar( s, m, e, label='1e-' + str( v ),
+                plt.errorbar( s, m, e, label='Tolerance 1e-' + str( v ) + ' mm',
                         marker=self.markers[self.iden_index],
                         markeredgewidth=1.0, markevery=1, ms=9.0, alpha=0.5 )
                 plt.xlabel( 'Strain Percent' )
@@ -71,7 +75,9 @@ class PlotResults( object ):
                 plt.legend( loc='best' )
                 if self.logplot:
                     plt.gca().set_yscale( 'log' )
-                plt.ylim( (10**-2, 10**2 ) )
+                #plt.ylim( (10**-2, 10**2 ) )
+                plt.ylim( (10**-1.2, 10**1.5 ) )
+                plt.xlim( (0.0, s[-1]+0.5) )
 
                 self.iden_index += 1
 
@@ -83,5 +89,18 @@ val_max = 9
 for curve, curve_name in curves.iteritems():
     r = pylab.csv2rec( 'SNRe_' + curve + '.csv' )
     plot_results.plot_snre_curves( curve, curve_name, val_min, val_max, r )
+
+plt.figure( 1 )
+plt.savefig( '../../../../doc/images/convergenceTolerance_phantom_regularization_axial.png' )
+plt.savefig( '../../../../doc/images/convergenceTolerance_phantom_regularization_axial.eps' )
+plt.figure( 2 )
+plt.savefig( '../../../../doc/images/convergenceTolerance_phantom_regularization_lateral.png' )
+plt.savefig( '../../../../doc/images/convergenceTolerance_phantom_regularization_lateral.eps' )
+plt.figure( 3 )
+plt.savefig( '../../../../doc/images/convergenceTolerance_phantom_no_regularization_axial.png' )
+plt.savefig( '../../../../doc/images/convergenceTolerance_phantom_no_regularization_axial.eps' )
+plt.figure( 4 )
+plt.savefig( '../../../../doc/images/convergenceTolerance_phantom_no_regularization_lateral.png' )
+plt.savefig( '../../../../doc/images/convergenceTolerance_phantom_no_regularization_lateral.eps' )
 
 plt.show()
