@@ -1,0 +1,15 @@
+universe = vanilla
+executable = ../runbinary.pl
+output = process.out
+error = process.err
+log = process.log
+periodic_hold = (JobStatus == 2) && ((CurrentTime - EnteredCurrentStatus) > (60 * 60 * 24))
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT_OR_EVICT
+notification = never
+
+requirements = (OSRedHatRelease == "Scientific Linux SL release 5.5 (Boron)")
+transfer_input_files = XXXX,../process.sh,../sharedfiles.tar.gz,../itk-statistics,../mmm-strain,../strain_line.py
+arguments =  process.sh
++AccountingGroup = "MedicalResearch_Varghese"
+queue
