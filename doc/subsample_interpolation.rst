@@ -191,14 +191,24 @@ Table 2.0 - Sinc window functions
  Welch         :math:`1 - \frac{x^2}{m^2}`
 ============= =======================
 
-An interpolated cross-correlation value, :math:`XCORR(x,y)` is calculated with
+An interpolated normalized cross-correlation value, :math:`XCORR(x,y)` was calculated with
 the sampled correlation values across the radius, and the window,
 
 .. math:: XCORR(x,y) = \sum_{i=\lfloor x \rfloor + 1 - m}^{\lfloor x \rfloor + m} \sum_{j=\lfloor y \rfloor + 1 - m}^{\lfloor y \rfloor + m} XCORR_{i,j} K(x-i) K(y-j) \;\;\;\;\; (Eq.\; 2)
 
-In this article, two simple optimization methods are examined, regularized
-gradient descent and Nelder-mead simplex (amoeba) optimization.  In the
-regularized gradient descent.
+In this article, two simple optimization methods were examined, a regular-step
+gradient descent and Nelder-Mead simplex (amoeba) optimization.  In the
+regular-step gradient descent method, parameters are advanced along the
+direction of the negative of the gradient.  The step length is reduced by half
+when the sign of the gradient changes [Ibanez2005]_.  The well-known Nelder-Mead
+simplex optimization advances a three-point simplex over the optimization space.
+
+We set the initial condition to be the sampled maximum of the normalized
+cross-correlation.  The parameter space was the displacement in the axial and
+lateral directions defined in fractional samples.  We proceeded with
+optimization until reaching convergence defined with a minimum step length with
+the regular-step gradient descent method and a parameter tolerance with the
+Nelder-Mead simplex method.
 
 2.2 Assessment with a tissue-mimicking phantom
 ----------------------------------------------
