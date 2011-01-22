@@ -66,7 +66,7 @@ class PlotResults( object ):
                         m[si] = np.mean( trials )
                         e[si] = 2*np.std( trials )/np.sqrt( len( trials ))
 
-                plt.errorbar( s, m, e, label='Tolerance 1e-' + str( v ) + ' mm',
+                plt.errorbar( s, m, e, label='Tolerance 1e-' + str( v ),
                         marker=self.markers[self.iden_index],
                         markeredgewidth=1.0, markevery=1, ms=9.0, alpha=0.5 )
                 plt.xlabel( 'Strain Percent' )
@@ -84,8 +84,8 @@ class PlotResults( object ):
 
 plot_results = PlotResults()
 curves = dict( convergenceTolerance = 'Convergence Tolerance' )
-val_min = 4
-val_max = 9
+val_min = 1
+val_max = 8
 for curve, curve_name in curves.iteritems():
     r = pylab.csv2rec( 'SNRe_' + curve + '.csv' )
     plot_results.plot_snre_curves( curve, curve_name, val_min, val_max, r )
