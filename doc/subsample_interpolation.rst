@@ -1,6 +1,39 @@
 ===================================================================
 An Approach to Unbiased Subsample Interpolation For Motion Tracking
 ===================================================================
+Matthew M. McCormick\ :sup:`1,2` and Tomy Varghese\ :sup:`1,2`
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. highlights::
+
+  :sup:`1`\ Department of Biomedical Engineering
+
+  University of Wisconsin-Madison
+
+  Room 2130 Engineering Centers Building
+
+  1550 Engineering Drive
+
+  Madison, WI 53706-1609
+
+------------------
+
+.. highlights::
+
+  :sup:`2`\ Department of Medical Physics
+
+  University of Wisconsin-Madison
+
+  1111 Highland Ave, Rm 1005
+
+  1550 Engineering Drive
+
+  Madison, WI 53705-2275
+
+-------------------
+
+Correspondence can be sent to matt@mmmccormick.com.
+
 
 Abstract
 ========
@@ -16,8 +49,16 @@ for this purpose.  The strain signal-to-noise (SNRe) ratio is compared to other
 common interpolation methods, and it is found that the SNRe is superior while
 still providing reasonable computational performance.
 
-Introduction
-============
+
+----------------
+
+**Key Words**: Subsample interpolation, strain imaging, motion tracking, sinc
+reconstruction.
+
+----------------
+
+1. Introduction
+===============
 
 Digital images present challenges in ultrasound motion tracking.  The sampling
 rates are barely sufficient to satisfy the Shannon-Nyquist sampling criterion.
@@ -111,4 +152,65 @@ evaluated as the elastographic signal-to-noise ratio (*SNRe*) in phantoms and
 simulations.  We examine the optimal sinc-filtering window length and type, and
 the computational performance of the Nelder-Mead simplex and a regular step
 gradient descent optimizer.
+
+2. Methods
+==========
+
+2.1 Algorithm
+-------------
+
+In the article by Cespedes et al., a binary search algorithm improved the time
+required to localize the subsample 1D cross-correlation peak.  The approach
+involves probing the sampled cross-correlation with sinc interpolation.  We
+framed this process as a multi-parameter, single-valued cost function numerical
+optimization problem.  We applied traditional numerical optimization methods that
+have quicker convergence properties than a binary search and can be applied to
+multiple parameters.  The cost function to be maximized is the cross-correlation
+function.  The parameters to be optimized are the axial and lateral
+displacements.
+
+We obtained subsample displacements values with 2D sinc interpolation
+[Meijering1999,Yoo2002]_.  The sinc kernel, :math:`K(t)` is given by
+
+.. math:: K(t) =  w(t) sinc(t) = w(t) \frac{\sin(\pi t)}{\pi t} \;\;\;\;\; (Eq.\; 1)
+
+where w(t) is the window function.  We examined the window
+functions shown in Table 2.0 [Meijering1999,Yoo2002]_,  Here *m* is the window
+radius; the window is non-zero from *-m* to *m*.
+
+Table 2.0 - Sinc window functions
+---------------------------------
+
+============= =======================
+ Window Name   Expression
+------------- -----------------------
+ Blackman      :math:`0.42 + 0.50 \cos(\frac{\pi x}{m}) + 0.08 \cos(\frac{2 \pi x}{m})`
+ Cosine        :math:`\cos(\frac{\pi x}{2 m})`
+ Hamming       :math:`0.54 + 0.46 \cos(\frac{\pi x}{m})`
+ Lanczos       :math:`sinc( \frac{\pi x}{m})`
+ Welch         :math:`1 - \frac{x^2}{m^2}`
+============= =======================
+
+An interpolated cross-correlation value, :math:`XCORR(x,y)` is calculated with
+the sampled correlation values across the radius, and the window,
+
+.. math:: XCORR(x,y) = \sum_{i=\lfloor x \rfloor + 1 - m}^{\lfloor x \rfloor + m} \sum_{j=\lfloor y \rfloor + 1 - m}^{\lfloor y \rfloor + m} XCORR_{i,j} K(x-i) K(y-j) \;\;\;\;\; (Eq.\; 2)
+
+In this article, two simple optimization methods are examined, regularized
+gradient descent and Nelder-mead simplex (amoeba) optimization.  In the
+regularized gradient descent.
+
+2.2 Assessment with a tissue-mimicking phantom
+----------------------------------------------
+
+2.3 Ultrasound and mechanics simulation
+---------------------------------------
+
+2.4 Experimental protocol
+-------------------------
+
+3. Results
+==========
+
+
 
