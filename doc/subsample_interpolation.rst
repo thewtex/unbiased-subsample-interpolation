@@ -210,8 +210,30 @@ optimization until reaching convergence defined with a minimum step length with
 the regular-step gradient descent method and a parameter tolerance with the
 Nelder-Mead simplex method.
 
-2.2 Assessment with a tissue-mimicking phantom
-----------------------------------------------
+The effectiveness of the algorithm was tested on both tissue-mimicking phantom
+and simulated ultrasound images.
+
+2.2 Tissue-mimicking phantom
+----------------------------
+
+We collected ultrasound radio-frequency (RF) data on a tissue-mimicking (TM)
+phantom with a clinical ultrasound scanner, the Siemens S2000 (Siemens
+Ultrasound, Mountain View, CA, USA).  The Siemens VFX9-4 linear array transducer
+acquired RF data at 40MHz with an excitation frequency of 8.9 MHz and a depth of
+5.5 cm.
+
+A 95×95×95 mm, uniform oil-gelatin phantom was placed in a rigid, low-friction basin
+and imaged from the top.  Uni-axial, uniform, uncontrained compression was
+applied by placing the surface of the tranducer in an acrylic plate.  Slip
+boundary conditions were maintained at the interface of the phantom and plate by
+ensuring adequate oil was present for lubrication.  Precise deformations in the
+directions intended were achieved by a motion with three linear degrees of
+freedom, and two rotational degrees of freedom.  A reference image was
+collection along with post-deformation images at 0.5%, 1.0%, 3.0%, 5.0%, and
+7.0% strain magnitude.  The position of the transducer was rotated and translated to
+obtain an independent scattering field, and the set of deformed images were
+re-collected.  This process was repeated to obtain 30 independent trials at each
+strain magnitude.
 
 2.3 Ultrasound and mechanics simulation
 ---------------------------------------
