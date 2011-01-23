@@ -156,8 +156,8 @@ gradient descent optimizer.
 2. Methods
 ==========
 
-2.1 Algorithm
--------------
+2.1 Subsample interpolation algorithm
+-------------------------------------
 
 In the article by Cespedes et al., a binary search algorithm improved the time
 required to localize the subsample 1D cross-correlation peak.  The approach
@@ -210,10 +210,45 @@ optimization until reaching convergence defined with a minimum step length with
 the regular-step gradient descent method and a parameter tolerance with the
 Nelder-Mead simplex method.
 
+2.2  Motion tracking algorithm
+------------------------------
+
+The proposed subsample interpolation algorithm was used within a block-matching
+motion tracking context.  Normalized cross-correlation was used as a similarity
+metric when comparing the matching blocks in the pre-deformation image to the
+image content in the post-deformation image search region.  A multi-level
+tracking approach was used to improve search region initialization at the lowest
+level of the multi-level image pyramid.  A three-level pyramid
+was utilized where the highest level was decimated by a factor of three in the
+axial direction and a factor of two in the lateral direction, and the middle level
+was decimated by a factor of 2 in the axial direction only.  Before decimation,
+the data was filtered with a discrete Gaussian with variance :math:`(f/2)^2` where *f*
+is the decimation factor [Lindeberg1994]_.  Matching-block sizes varied linearly
+from the top to bottom level with axial length of 1.3mm and lateral width of
+4.0mm at the top level to an axial length of 0.5mm and lateral width of 2.2mm at
+the bottom level.  There was no block overlap.
+
+To remove peak-hopping tracking errors, displacements with strains greater than
+15% magnitude were replaced with linearly interpolated values from outside the
+faulty region.  To improve correlation, matching-blocks at lower levels were
+compressed according to the strain estimated at the previous level
+[Chaturvedi1998,Brusseau2008]_.  The
+matching block was scaled by a factor of :math:`1+\varepsilon_d`, where :math:`\varepsilon_d`
+is the strain in direction *d*, at its center and resampled using sinc interpolation
+with a Lanczos window and radius four.
+
+In order to demonstrate that proposed method is effective in finding the
+subsample peak in situations other than normalized cross-correlation of
+ultrasound images, we also examined interpolation after regularization with a
+Bayesian regularization method [McCormick2011]_.  Where noted in the results, two iterations of
+the regularization method where applied to the normalized cross-correlation.
+The parameter of the algorithm, the strain regularization sigma (SRS) was 0.15
+in the axial direction and 0.075 in the lateral direction.
+
 The effectiveness of the algorithm was tested on both tissue-mimicking phantom
 and simulated ultrasound images.
 
-2.2 Tissue-mimicking phantom
+2.3 Tissue-mimicking phantom
 ----------------------------
 
 We collected ultrasound radio-frequency (RF) data on a tissue-mimicking (TM)
@@ -235,7 +270,7 @@ obtain an uncorrelated scattering field, and the set of deformed images were
 re-collected.  This process was repeated to obtain 30 independent trials at each
 strain magnitude.
 
-2.3 Ultrasound and mechanics simulation
+2.4 Ultrasound and mechanics simulation
 ---------------------------------------
 
 Computer simulations were performed intended to model the ultrasound and
@@ -256,7 +291,7 @@ the phantom with zero lateral displacement at the centerline.  New sets of
 randomly distributed scatterers were used to create 30 independent scattering
 fields.
 
-2.4 Experimental protocol
+2.5 Experimental protocol
 -------------------------
 
 3. Results
