@@ -199,7 +199,8 @@ the sampled correlation values across the radius, and the window,
 In this article, two simple optimization methods were examined, a regular-step
 gradient descent and Nelder-Mead simplex (amoeba) optimization.  In the
 regular-step gradient descent method, parameters are advanced along the
-direction of the negative of the gradient.  The step length is reduced by half
+direction of the negative of the gradient, which is calculated with the finite
+difference method.  The step length is reduced by half
 when the sign of the gradient changes [Ibanez2005]_.  The well-known Nelder-Mead
 simplex optimization advances a three-point simplex over the optimization space.
 
@@ -293,6 +294,31 @@ fields.
 
 2.5 Experimental protocol
 -------------------------
+
+Following the analysis by Cespedes et al., we evaluated the effectiveness of the
+subsample interpolation method using the elastographic signal-to-noise ratio
+(*SNRe*).
+
+.. math:: SNR_e [dB] = 20 \log10 \; ( \frac {m_\varepsilon} {s_\varepsilon} ) \;\;\;\;\; (Eq.\; 3)
+
+*SNRe* was evaluated over the strain magnitude examined for both the TM phantom
+and simulation, in the axial and lateral directions, and with and without
+regularization.  Twice the standard error calculated for the 30 trials examined
+in each experiment was displayed in resulting plots.  We compare sinc
+interpolation with numerical optimization via Nelder-Mead simplex or regular
+step gradient descent with parabolic interpolation, cosine interpolation, and no
+interpolation.
+
+The *SNRe* was also used to evaluate the parameters of the algorithm.  With a
+window radius of four samples, we compare the Blackman, Cosine, Hamming,
+Lanczos, and Welch windows types.  The effect of window length is examined along
+with the convergence tolerance.
+
+Given a convergence tolerance of 1e-5 samples, we inserted time probes in our
+code to measure the average time required for convergence in an image on an
+Intel Core i7 Processor at 2.8 GHz.  We also measured the effect of the initial
+simplex offset on the number of iterations required for convergence when using the
+Nelder-Mead optimization method.
 
 3. Results
 ==========
