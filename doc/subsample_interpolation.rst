@@ -318,7 +318,7 @@ with the convergence tolerance.
 
 Given a convergence tolerance of 1e-5 samples, we inserted time probes in our
 code to measure the average time required for convergence in an image on an
-Intel Core i7 Processor at 2.8 GHz.  We also measured the effect of the initial
+Intel Core i7 CPU clocked at 2.8 GHz.  We also measured the effect of the initial
 simplex offset on the number of iterations required for convergence when using the
 Nelder-Mead optimization method.
 
@@ -394,6 +394,44 @@ performance, which is consisent with the study conducted Meijering et al. where
 it was concluded that Welch, Cosine, and Lanczos windows are some of the best sinc
 approximation windows for medical images and Hamming is one of the worst [Meijering1999]_.
 
+.. |window_length_plot| replace:: Fig. 4
+
+.. |window_length_caption| replace::
+
+  Impact of the sinc window radius in samples.  The radius is the same in all
+  directions. a) *todo*
+
+*todo* window radius paragraph.
+
+Since the two optimization methods generate the same result, the preferred
+optimization method is quicker to compute.  Table 3.0 shows mean optimization
+for a subsample displacement calculation.  While sinc interpolation is much more
+computationally expensive than the parametric methods, the times required are
+still feasible for real-time imaging.  Nelder-Mead simplex optimization is
+significantly faster than gradient descent optimization.  |simplex_offset_plot|
+shows that the best initial simplex offset in samples is approximately 0.2-0.3 samples.
+However, a poor choice for an initial simplex offset only generates about a 5%
+increase in optimization time.
+
+Table 3.0 - Optimization times
+------------------------------
+
+======================= ===========================================
+Interpolation method     Mean optimization time [μs] ± 2*std. err.
+----------------------- -------------------------------------------
+Parabolic                  0.21 ± 0.022
+Cosine                     1.07 ± 0.021
+Sinc-Nelder-Mead           234  ± 19
+Sinc-gradient-descent      707  ± 59
+======================= ===========================================
+
+.. |simplex_offset_plot| replace:: Fig. 5
+
+.. |simplex_offset_caption| replace::
+
+  Number of iterations until convergence is reached given the initial simplex
+  offset for both directions in samples.
+
 4. Discussion
 =============
 
@@ -439,7 +477,7 @@ should be avoided.
 
   **Figure 3:** |window_type_caption|
 
-  **Figure 4:**
+  **Figure 4:** |window_length_caption|
 
 5. Acknowledgements
 ===================
