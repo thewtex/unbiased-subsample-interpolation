@@ -442,8 +442,13 @@ interpolation relative to parabolic interpolation
 [Cespedes1995,Zahiri-Azar2008]_, differences in the signal or sampling rate may
 explain the better performance of parabolic interpolation in this study.  An
 advantage of sinc interpolation is that it is theoretically unbiased
-[Cespedes1995]_, so it will perform optimally despite the underlying signal.  Of
-course, real-world sinc interpolation has limitations due to quantization and
+[Cespedes1995]_, so it will perform optimally despite the underlying signal.
+Unlike some of methods discussed in the Introduction, the method is not
+dependent on the similarity metric being normalized cross-correlation or the
+signal being narrowband.  The approach was shown to be still applicable when
+regularization is applied.
+
+Of course, real-world sinc interpolation has limitations due to quantization and
 finite window lengths.  A similar approach that may have better performance is
 that incorporated into the motion-tracking algorithm by  Brusseau et al.
 [Brusseau2008]_.  Determination of the calculation of subsample normalized
@@ -459,6 +464,18 @@ require complex optimization methods.  There are only two parameters, the axial
 and lateral displacements, we initialize the problem close to the solution, and
 the similarity metric is smooth and without local maxima in the subsample
 location of the peak.
+
+While 2D sinc-interpolation based subsample displacement estimation was
+infeasible in the past, acceleration in compute speeds and application of an
+optimization method make the method applicable to real-time imaging.  Future
+advances in computing speed will occur with multi-core CPUs and general purpose
+GPUs (GPGPUs), so parallelization is an important property of an algorithm.  The
+proposed algorithm is parallizable across each displacement pixel.  In our
+tests, the Nelder-Mead simplex achieved convergence faster than the gradient
+descent method.  While gradient descent methods often converge in fewer
+iterations than gradient-free methods like the Nelder-Mead simplex, they also
+require calculation of the gradient at each iteration.  In this case, the high cost of
+additional sinc interpolations rendered the gradient-based method slower.
 
 There is a tradeoff between accuracy and computational burden for the window
 length (radius) and convergence tolerance.  A convergence tolerance of 1e-5
@@ -478,6 +495,8 @@ should be avoided.
   **Figure 3:** |window_type_caption|
 
   **Figure 4:** |window_length_caption|
+
+  **Figure 5:** |simplex_offset_caption|
 
 5. Acknowledgements
 ===================
