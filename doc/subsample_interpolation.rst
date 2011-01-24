@@ -118,7 +118,7 @@ samples in the fit.
 As studied by in [Viola2005]_, a more brute force to determining a more precise
 signal shift is to resample the image through interpolation before performing
 cross-correlation.  Use of a matched filter during resample may improve the
-result [Lai1999].  Instead of resampling and recalculation of the
+result [Lai1999]_.  Instead of resampling and recalculation of the
 cross-correlation, curve fitting can be applied.  For example, a parabola
 [Boucher1981,Jacovitti1993,Foster1990,Moddemeijer1991,Lai1999]_ or cosine fit
 [deJong1990]_ can be used in 1D or an ellipsoid in 2D [Giunta1999]_.  These
@@ -304,10 +304,12 @@ subsample interpolation method using the elastographic signal-to-noise ratio
 *SNRe* was evaluated over the strain magnitude examined for both the TM phantom
 and simulation, in the axial and lateral directions, and with and without
 regularization.  Twice the standard error calculated for the 30 trials examined
-in each experiment was displayed in resulting plots.  We compare sinc
-interpolation with numerical optimization via Nelder-Mead simplex or regular
-step gradient descent with parabolic interpolation, cosine interpolation, and no
-interpolation.
+in each experiment was displayed in resulting plots.  Unless otherwise noted, a
+radius of four samples is used with a Welch window and Nelder-Mead optimization.
+
+*SNRe* is used to compare sinc interpolation with numerical optimization via
+Nelder-Mead simplex or regular step gradient descent with parabolic
+interpolation, cosine interpolation, and no interpolation.
 
 The *SNRe* was also used to evaluate the parameters of the algorithm.  With a
 window radius of four samples, we compare the Blackman, Cosine, Hamming,
@@ -323,5 +325,130 @@ Nelder-Mead optimization method.
 3. Results
 ==========
 
+.. |interp_method_plot| replace:: Fig. 1
 
+.. |interp_method_caption| replace::
+
+  Performance of interpolation methods as measured with the *SNRe* for 2D sinc
+  interpolation using either Nelder-Mead simplex or regular-step gradient
+  descent, parabolic interpolation, cosine interpolation, or no interpolation.
+  a) TM phantom axial *SNRe* with no regulation, b) TM phantom lateral *SNRe* with no regulation,
+  c) TM phantom axial *SNRe* with Bayesian regularization, d) TM phantom lateral *SNRe* with Bayesian
+  regularization,
+  e) simulation axial *SNRe* with no regulation, f) simulation lateral *SNRe* with no regulation,
+  g) axial *SNRe* with Bayesian regularization, and h) lateral *SNRe* with Bayesian
+  regularization.
+
+The effectiveness of 2D windowed-sinc interpolation compared to parabolic,
+cosine, or no interpolation is shown in |interp_method_plot|.  The *SNRe* is
+show across the range of strains in both the lateral and axial directions.  In
+|interp_method_plot|\ a), no interpolation is seen to perform the worst,
+followed by cosine interpolation, parabolic interpolation, and windowed-sinc
+interpolation.  Lower *SNRe* arises for low strains from electronic and quantization noise
+and once we reach 7% strain magnitude motion tracking was no longer effective
+due to decorrelation [Varghese1997]_. Throughout all subplots of |interp_method_plot|, the sinc
+interpolation perform equally well regardless of the optimization method
+utilized.  In the axial direction with no regularization, sinc interpolation is
+better than parabolic interpolation, but only significantly at lower strains,
+0.5% and 1.0%.  Due to ultrasound's anisotropic resolution, *SNRe* in
+|interp_method_plot|\ b) is generally much lower than |interp_method_plot|\ a).
+However, the same trend in effectiveness observed in |interp_method_plot|\ a)
+can be seen in |interp_method_plot|\ b).  In the lateral case, the benefits of
+sinc interpolation over parabolic interpolation are more dramatic.  When
+regulation is applied in |interp_method_plot|\ c) and d), the curves shift up as
+expected.  The same ranking that resulted in the no regularization case also
+occurs with regularization, although the difference between sinc and parabolic
+interpolation is reduced.
+
+.. |convergence_tolerance_plot| replace:: Fig. 2
+
+.. |convergence_tolerance_caption| replace::
+
+  Affect of the parameter convergence tolerance with Nelder-Mead simplex
+  optimization.  The tolerance was defined equally in both directions in units
+  of samples.  a) TM phantom axial *SNRe* with no regularization and b) TM
+  phantom lateral *SNRe* with no regularization.
+
+The dependence on the displacement convergence tolerance with the Nelder-Mead
+simplex optimization method is shown in |convergence_tolerance_plot|.  The
+tolerance is specified in terms of samples.  Surprisingly, the *SNRe* are
+relatively stable across a range of values.  Results in the regularization case
+and on simulation data were similar and are ommitted for brevity.  A tolerance
+of 1e-5 samples appears to be sufficient to generate consistent results.
+
+.. |window_type_plot| replace:: Fig. 3
+
+.. |window_type_caption| replace::
+
+  Impact of the sinc window type on lateral *SNRe*.  Statistically significant
+  differences were not observed in the axial direction. a) TM phantom lateral
+  *SNRe* with no regularization, b) TM phantom lateral *SNRe* with
+  regularization, c) simulation lateral *SNRe* with no regularization, and d)
+  simulation lateral *SNRe* with regularization.
+
+The significance of the window type on the lateral *SNRe* is displayed in
+|window_type_plot|.  There was not a significant impact in the axial direction,
+and the lateral impact appears to be small but significant even though a
+generous radius of four samples was used.  The Hamming window gives the worst
+performance, which is consisent with the study conducted Meijering et al. where
+it was concluded that Welch, Cosine, and Lanczos windows are some of the best sinc
+approximation windows for medical images and Hamming is one of the worst [Meijering1999]_.
+
+4. Discussion
+=============
+
+Bias errors that during parametric interpolation methods can be attributed to a
+mis-match between the underlying function being interpolation and the parametric
+model.  While prior articles reported fewer bias errors with cosine
+interpolation relative to parabolic interpolation
+[Cespedes1995,Zahiri-Azar2008]_, differences in the signal or sampling rate may
+explain the better performance of parabolic interpolation in this study.  An
+advantage of sinc interpolation is that it is theoretically unbiased
+[Cespedes1995]_, so it will perform optimally despite the underlying signal.  Of
+course, real-world sinc interpolation has limitations due to quantization and
+finite window lengths.  A similar approach that may have better performance is
+that incorporated into the motion-tracking algorithm by  Brusseau et al.
+[Brusseau2008]_.  Determination of the calculation of subsample normalized
+cross-correlation is part of an optimization approach earlier in the process;
+each calculation of the normalized cross-correlation requires resampling of the
+post-deformation image in the area of the matching-block.  However, this has a
+much higher computational expense.
+
+As seen in |interp_method_plot|, as long the optimization method can robustly
+converge to the solution, the choice of optimization method does not affect the
+accuracy of the result.  This particular problem is well-behaved and does not
+require complex optimization methods.  There are only two parameters, the axial
+and lateral displacements, we initialize the problem close to the solution, and
+the similarity metric is smooth and without local maxima in the subsample
+location of the peak.
+
+There is a tradeoff between accuracy and computational burden for the window
+length (radius) and convergence tolerance.  A convergence tolerance of 1e-5
+samples in each direction appears to be sufficient; no gains are observed with
+increasing tolerance.  Diminishing returns will be obtained with a window radius
+higher than four samples.  The Welch, Lanczos, or Cosine windows should be used
+to take the greatest advantage of the given radius, and the Hamming window
+should be avoided.
+
+6. Figure captions
+==================
+
+  **Figure 1:** |interp_method_caption|
+
+  **Figure 2:** |convergence_tolerance_caption|
+
+  **Figure 3:** |window_type_caption|
+
+  **Figure 4:**
+
+5. Acknowledgements
+===================
+
+This work is supported in part by NIH grants R21 EB010098-01, R01 NS064034-01A2,
+R01 CA111289-01A2 and R01CA112192-S103.  Mr. McCormick was also supported by
+Grant Number T90DK070079 and R90DK071515 from the National Institute of Diabetes
+and Digestive and Kidney Diseases.
+
+7. References
+=============
 
