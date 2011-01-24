@@ -44,7 +44,8 @@ derivative operation on displacements.  Many commonly used subsample estimation
 techniques have a high amount of error because of bias.  In this paper we
 examine an unbiased approach subsample displacement estimations that consists of
 2D windowed-sinc interpolation with numerical optimization.  We find that a
-Welch or Lanczos window with Nelder-Mead simplex optimization is well suited
+Welch or Lanczos window with Nelder-Mead simplex or regular-step gradient
+descent optimization is well suited
 for this purpose.  The strain signal-to-noise (SNRe) ratio is compared to other
 parabolic and cosine interpolation methods, and it is found that the SNRe is better while
 still providing reasonable computational performance, especially for small
@@ -409,7 +410,7 @@ optimization method is quicker to compute.  Table 3.0 shows mean optimization
 for a subsample displacement calculation.  While sinc interpolation is much more
 computationally expensive than the parametric methods, the times required are
 still feasible for real-time imaging.  Nelder-Mead simplex optimization is
-somewhat faster than gradient descent optimization.  |simplex_offset_plot|
+slightly faster than gradient descent optimization, but they are very close.  |simplex_offset_plot|
 shows that the best initial simplex offset in samples is approximately 0.2-0.3 samples.
 However, a poor choice for an initial simplex offset only generates about a 5%
 increase in optimization time.
@@ -422,8 +423,8 @@ Interpolation method     Mean optimization time [μs] ± 2*std. err.
 ----------------------- -------------------------------------------
 Parabolic                  0.21 ± 0.022
 Cosine                     1.07 ± 0.021
-Sinc-Nelder-Mead           234  ± 19
-Sinc-gradient-descent      707  ± 59
+Sinc-Nelder-Mead           261  ± 5
+Sinc-gradient-descent      277  ± 6
 ======================= ===========================================
 
 .. |simplex_offset_plot| replace:: Fig. 5
@@ -474,11 +475,11 @@ optimization method make the method applicable to real-time imaging.  Future
 advances in computing speed will occur with multi-core CPUs and general purpose
 GPUs (GPGPUs), so parallelization is an important property of an algorithm.  The
 proposed algorithm is parallizable across each displacement pixel.  In our
-tests, the Nelder-Mead simplex achieved convergence somewhat faster than the gradient
+tests, the Nelder-Mead simplex achieved convergence close to the gradient
 descent method.  While gradient descent methods often converge in fewer
 iterations than gradient-free methods like the Nelder-Mead simplex, they also
-require calculation of the gradient at each iteration.  In this case, the high cost of
-additional sinc interpolations rendered the gradient-based method slower.
+require calculation of the gradient at each iteration, which is computationally
+expensive in this case.
 
 There is a tradeoff between accuracy and computational burden for the window
 length (radius) and convergence tolerance.  A convergence tolerance of 1e-5
