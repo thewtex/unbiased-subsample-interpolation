@@ -67,7 +67,7 @@ class CitationManager(shared.CitationManager):
 
 	################### CITATION FORMATTING ########################
 	def get_citation_label(self, entry, template=None):
-		return ("%d."%self.get_citation_rank(entry)).ljust(5)
+		return ("[%d]"%self.get_citation_rank(entry)).ljust(5)
 
 	def sortkey(self, bibentry):
 		return self.get_citation_rank(bibentry)
