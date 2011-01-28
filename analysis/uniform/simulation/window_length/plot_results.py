@@ -45,7 +45,7 @@ class PlotResults( object ):
         self.markers = [ '+' , '*' , ',' , '.' , '1' , '2' , '3' , '4' , 'h' ,
                 'o' , 'p' , 's' , 'v' , 'x' , '<' , '>' , 'D' , 'H' , '^' , '_', 'd' ]
         self.iden_index = 0
-        self.regs = dict(  {' regularization' : 'Regulation', ' no_regularization' : 'No Regulation' })
+        self.regs = dict(  {' regularization' : 'Regularization', ' no_regularization' : 'No Regularization' })
         self.snre_records = dict( axial_strain_snre = 'Axial $SNR_e$',
                 lateral_strain_snre = 'Lateral $SNR_e$' )
         self.logplot = True
