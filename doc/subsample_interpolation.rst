@@ -150,18 +150,19 @@ contour [Ebbini2006]_.
 In this paper, we propose the use of a 2D sinc reconstruction method coupled
 with traditional numerical optimization techniques for subsample ultrasound
 displacement estimation.  Since parabolic methods remain the most popular method
-referenced in the literature and to follow the analysis of Cespedes et al., we compare
-the new method again parabolic and cosine curve fitting.  Performance is
-evaluated utilizing the variation in the elastographic signal-to-noise ratio (*SNRe*) in tissue-mimicking (TM) experimental phantoms and
-simulations.  We examine the optimal sinc-filtering window length and type, and
-the computational performance of the Nelder-Mead simplex and a regular step
-gradient descent optimizer.
+referenced in the literature and to follow the analysis of Cespedes et al., we
+compare the new method again parabolic and cosine curve fitting.  Performance is
+evaluated utilizing the variation in the elastographic signal-to-noise ratio
+(*SNRe*) in tissue-mimicking (TM) experimental phantoms and simulations.  We
+examine the optimal sinc-filtering window length and type, and the computational
+performance of the Nelder-Mead simplex and a regular step gradient descent
+optimizer.
 
 Materials and Method
 ====================
 
-2.1 Subsample interpolation algorithm
--------------------------------------
+Subsample interpolation algorithm
+---------------------------------
 
 In the article by Cespedes et al., a binary search algorithm improved the time
 required to localize the subsample 1D cross-correlation peak.  The approach
@@ -178,7 +179,7 @@ We obtained subsample displacements values with 2D sinc interpolation
 
 .. math:: K(t) =  w(t) sinc(t) = w(t) \frac{\sin(\pi t)}{\pi t} \;\;\;\;\; (Eq.\; 1)
 
-where w(t) is the window function.  We examined the window
+where w(t) denotes the window function.  We examined different window
 functions shown in Table 2.0 [Meijering1999,Yoo2002]_,  Here *m* is the window
 radius; the window is non-zero from *-m* to *m*.
 
@@ -200,7 +201,7 @@ the sampled correlation values across the radius, and the window,
 
 .. math:: XCORR(x,y) = \sum_{i=\lfloor x \rfloor + 1 - m}^{\lfloor x \rfloor + m} \sum_{j=\lfloor y \rfloor + 1 - m}^{\lfloor y \rfloor + m} XCORR_{i,j} K(x-i) K(y-j) \;\;\;\;\; (Eq.\; 2)
 
-In this article, two simple optimization methods were examined, a regular-step
+In this article, two simple optimization methods were examined: a regular-step
 gradient descent and Nelder-Mead simplex (amoeba) optimization.  In the
 regular-step gradient descent method, parameters are advanced along the
 direction of the negative of the gradient, which is calculated with the finite
@@ -215,8 +216,8 @@ optimization until reaching convergence, which was defined with a minimum step l
 the regular-step gradient descent method and a parameter tolerance with the
 Nelder-Mead simplex method.
 
-2.2  Motion tracking algorithm
-------------------------------
+Motion tracking algorithm
+-------------------------
 
 The proposed subsample interpolation algorithm was used within an ultrasound block-matching
 motion tracking context.  Normalized cross-correlation was used as a similarity
@@ -229,13 +230,13 @@ axial direction and a factor of two in the lateral direction, and the middle lev
 was decimated by a factor of 2 in the axial direction only.  Before decimation,
 the data was filtered with a discrete Gaussian with variance :math:`(f/2)^2`, where *f*
 is the decimation factor [Lindeberg1994]_.  Matching-block sizes varied linearly
-from the top to bottom level with axial length of 1.3mm and lateral width of
-4.0mm at the top level to an axial length of 0.5mm and lateral width of 2.2mm at
+from the top to bottom level with axial length of 1.3 mm and lateral width of
+4.0mm at the top level to an axial length of 0.5 mm and lateral width of 2.2mm at
 the bottom level.  There was no block overlap.
 
 To remove peak-hopping tracking errors, displacements with strains greater than
 15% magnitude were replaced with linearly interpolated values from outside the
-faulty region.  To improve correlation, matching-blocks at lower levels were
+erroneous region.  To improve correlation, matching-blocks at lower levels were
 compressed according to the strain estimated at the previous level
 [Chaturvedi1998]_.  The
 matching block was scaled by a factor of :math:`1+\varepsilon_d`, where :math:`\varepsilon_d`
@@ -243,8 +244,8 @@ is the strain in direction *d*, at its center and resampled using sinc interpola
 with a Lanczos window and radius four.
 
 In order to demonstrate that the proposed method is effective in finding the
-subsample peak in situations other than normalized cross-correlation of
-ultrasound images, we also examined interpolation after regularization with a
+subsample peak in situations other than normalized cross-correlation with
+ultrasound radiofrequency (RF) data, we also examined interpolation after regularization with a
 Bayesian regularization method [McCormick2011]_.  Where noted in the results, two iterations of
 the regularization method where applied to the normalized cross-correlation.
 The parameter of the algorithm, the strain regularization sigma (SRS), was 0.15
@@ -253,17 +254,17 @@ in the axial direction and 0.075 in the lateral direction.
 Effectiveness of the algorithm was tested on both tissue-mimicking phantom
 and simulated ultrasound images.
 
-2.3 Tissue-mimicking phantom
-----------------------------
+Tissue-mimicking phantom
+------------------------
 
-We collected ultrasound radio-frequency (RF) data on a tissue-mimicking (TM)
-phantom with a clinical ultrasound scanner, the Siemens S2000 (Siemens
-Ultrasound, Mountain View, CA, USA).  The Siemens VFX9-4 linear array transducer
-acquired RF data at 40MHz with an excitation frequency of 8.9 MHz and a depth of
-5.5 cm.
+We collected ultrasound RF data on a TM phantom with a clinical ultrasound
+scanner, the Siemens S2000 (Siemens Ultrasound, Mountain View, CA, USA).  The
+Siemens VFX9-4 linear array transducer acquired RF data at 40MHz with an
+excitation frequency of 8.9 MHz and at a depth of 5.5 cm.
 
-A 95×95×95 mm, uniform oil-gelatin phantom was placed in a rigid, low-friction basin
-and imaged from the top.  Uni-axial, uniform, unconstrained compression was
+A 95×95×95 mm, uniform oil-gelatin phantom was placed in a rigid, low-friction
+container
+and imaged from the top surface.  Uni-axial, uniform, unconstrained compression was
 applied by placing the surface of the transducer in an acrylic plate.  Slip
 boundary conditions were maintained at the interface of the phantom and plate by
 ensuring adequate oil was present for lubrication.  Precise deformations in the
@@ -275,43 +276,43 @@ obtain an uncorrelated scattering field, and the set of deformed images were
 re-collected.  This process was repeated to obtain 30 independent trials at each
 strain magnitude.
 
-2.4 Ultrasound and mechanics simulation
----------------------------------------
+Ultrasound and mechanics simulation
+-----------------------------------
 
 Computer simulations were performed intended to model the ultrasound and
-mechanical behavior of the clinical system and TM phantom.  A phantom was
+mechanical behavior of the clinical system and TM phantom.  A numercial phantom was
 generated by simulating randomly positioned acoustic scatterers over a
 40×40×10mm volume.  A transducer was modeled with a Gaussian spectrum having a
 center frequency of 8.0 MHz and a 40% fractional bandwidth, 128 element linear
 array with 0.15mm lateral by 10mm elevational element dimensions, and 0.2 mm
-element pitch [Li1999]_.  Focusing occurred at a 20mm depth.
+element pitch [Li1999]_.  Focusing was fixed at a 20mm depth.
 
 Displacements were applied to the scatterers assuming uni-axial compression of
-an incompressible material, i.e. strains were opposite in sign and half the
-magnitude of the axial directions.  The same set of strains applied to the TM
-phantom were generated.  Axial displacements started from zero at the
+an incompressible material, i.e. local strains were opposite in sign and half the
+magnitude of the axial directions.  The same deformations applied to the TM
+phantom were simulated.  Axial displacements started from zero at the
 transducer surface to a negative value at the bottom of the simulated phantom
 and lateral displacements transitioned from negative to positive values across
 the phantom with zero lateral displacement at the centerline.  New sets of
 randomly distributed scatterers were used to create 30 independent scattering
-fields.
+fields with the corresponding radiofrequency data.
 
 2.5 Experimental protocol
 -------------------------
 
 Following the analysis by Cespedes et al., we evaluated the effectiveness of the
 subsample interpolation method using the elastographic signal-to-noise ratio
-(*SNRe*).
+(*SNRe*) feature.
 
 .. math:: SNR_e = \frac {m_\varepsilon} {s_\varepsilon} \;\;\;\;\; (Eq.\; 3)
 
 *SNRe* was evaluated over the strain magnitude examined for both the TM phantom
-and simulation, in the axial and lateral directions, and with and without
+and simulation, along the axial and lateral directions, and with and without
 regularization.  Twice the standard error calculated for the 30 trials examined
 in each experiment was displayed in resulting plots.  Unless otherwise noted, a
-radius of four samples is used with a Welch window and Nelder-Mead optimization.
+radius of four data samples is used with a Welch window and Nelder-Mead optimization.
 
-*SNRe* is used to compare sinc interpolation with numerical optimization via
+Variations in the *SNRe* are used to compare sinc interpolation with numerical optimization via
 Nelder-Mead simplex or regular step gradient descent with parabolic
 interpolation, cosine interpolation, and no interpolation.
 
@@ -322,12 +323,12 @@ with the convergence tolerance.
 
 Given a convergence tolerance of 1e-5 samples, we inserted time probes in our
 code to measure the average time required for convergence in an image on an
-Intel Core i7 CPU clocked at 2.8 GHz.  We also measured the effect of the initial
+Intel Core i5 CPU clocked at 3.2 GHz.  We also measured the effect of the initial
 simplex offset on the number of iterations required for convergence when using the
 Nelder-Mead optimization method.
 
-3. Results
-==========
+Results
+=======
 
 .. |interp_method_plot| replace:: Fig. 1
 
@@ -343,23 +344,23 @@ Nelder-Mead optimization method.
   g) axial *SNRe* with Bayesian regularization, and h) lateral *SNRe* with Bayesian
   regularization.
 
-The effectiveness of 2D windowed-sinc interpolation compared to parabolic,
+The effectiveness of 2D windowed-sinc interpolation when compared to parabolic,
 cosine, or no interpolation is shown in |interp_method_plot|.  The *SNRe* is
 shown across the range of strains in both the lateral and axial directions.  In
-|interp_method_plot|\ a), no interpolation is seen to perform the worst,
+|interp_method_plot|\ a), no interpolation provides the worst performance,
 followed by cosine interpolation, parabolic interpolation, and windowed-sinc
 interpolation.  Lower *SNRe* arises for low strains from electronic and quantization noise
-and once we reach 7% strain magnitude motion tracking was no longer effective
+and signal decorrelation due to th eapplied deformation.  For examples, once we reach 7% applied deformation motion tracking was no longer effective
 due to decorrelation [Varghese1997]_. Throughout all subplots of |interp_method_plot|, the sinc
 interpolation perform equally well regardless of the optimization method
 utilized.  In the axial direction with no regularization, sinc interpolation is
 better than parabolic interpolation, but only significantly at lower strains,
-0.5% and 1.0%.  Due to ultrasound's anisotropic resolution, *SNRe* in
+e.g. 0.5% and 1.0%.  Due to ultrasound's anisotropic resolution, *SNRe* in
 |interp_method_plot|\ b) is generally much lower than |interp_method_plot|\ a).
 However, the same trend in effectiveness observed in |interp_method_plot|\ a)
 can be seen in |interp_method_plot|\ b).  In the lateral case, the benefits of
 sinc interpolation over parabolic interpolation are more dramatic.  When
-regulation is applied in |interp_method_plot|\ c) and d), the curves shift up as
+regularization is applied in |interp_method_plot|\ c) and d), the curves shift up as
 expected.  The same ranking that resulted in the no regularization case also
 occurs with regularization, although the difference between sinc and parabolic
 interpolation is reduced.
@@ -375,7 +376,7 @@ interpolation is reduced.
 
 The dependence on the displacement convergence tolerance with the Nelder-Mead
 simplex optimization method is shown in |convergence_tolerance_plot|.  The
-tolerance is specified in terms of samples.  Surprisingly, the *SNRe* is
+tolerance is specified in units of data samples.  Surprisingly, the *SNRe* is
 relatively stable across a range of values.  Results in the regularization case
 and on simulation data were similar and are omitted for brevity.  A tolerance
 of 1e-5 samples appears to be sufficient to generate consistent results.
@@ -391,7 +392,7 @@ of 1e-5 samples appears to be sufficient to generate consistent results.
   simulation lateral *SNRe* with regularization.
 
 The significance of the window type on the lateral *SNRe* is displayed in
-|window_type_plot|.  There was not a significant impact in the axial direction,
+|window_type_plot|.  No significant impact was observed in the axial direction,
 and the lateral impact appears to be small but significant even though a
 generous radius of four samples was used.  The Hamming window gives the worst
 performance, which is consistent with the study conducted Meijering et al. where
@@ -402,13 +403,22 @@ approximation windows for medical images and Hamming is among of the worst [Meij
 
 .. |window_length_caption| replace::
 
-  Impact of the sinc window radius in samples.  The radius is the same in all
-  directions. a) *todo*
+  Impact of the sinc window radius in data samples.  The radius is the same in all
+  directions. a) lateral *SNRe* with no regularization for the simulation and
+  TM phantom with 0.5% and 1.5% nominal strain.  b) the same quantity with
+  regularization.
 
-*todo* window radius paragraph.
+Content in the sinc interpolation calculation is determined by both the window
+type and the window radius.  |window_length_plot| show the effect of with window
+radius in data samples on the lateral *SNRe*.  Axial *SNRe* results are similar.
+For both the regularization and no regularization, a radius of one or two samples is
+insufficient.  In the case of no regularization, improvements appear up to a
+radius of five samples.  In contrast, with regularization, little gain is
+accrues after three samples.  This type of regularization focalizes the
+similarity function, which decreases the need for a long interpolation window.
 
 Since the two optimization methods generate the same result, the preferred
-optimization method is quicker to compute.  Table 3.0 shows mean optimization
+optimization method is computes quicker.  Table 3.0 shows mean optimization
 for a subsample displacement calculation.  While sinc interpolation is much more
 computationally expensive than the parametric methods, the times required are
 still feasible for real-time imaging.  Nelder-Mead simplex optimization is
@@ -436,40 +446,40 @@ Sinc-gradient-descent      277  ± 6
   Number of iterations until convergence is reached given the initial simplex
   offset for both directions in samples.
 
-4. Discussion
-=============
+Discussion
+==========
 
 Bias errors that occur with parametric interpolation methods can be attributed
-to a mismatch between the underlying function being interpolation and the
+to a mismatch between the underlying function being interpolated and the
 parametric model.  While prior articles reported fewer bias errors with cosine
 interpolation relative to parabolic interpolation
 [Cespedes1995,Zahiri-Azar2008]_, differences in the signal or sampling rate may
-explain the better performance of parabolic interpolation in this study.  An
+explain the better performance attributed to parabolic interpolation study.  An
 advantage of sinc interpolation is that it is theoretically unbiased
-[Cespedes1995]_, so it will perform optimally despite the underlying signal.
-Unlike some of methods discussed in the Introduction, the method is not
+[Cespedes1995]_, and therefore will perform optimally despite the underlying signal.
+Unlike some of methods discussed in the Introduction, this method is not
 dependent on the similarity metric being normalized cross-correlation or the
 signal being narrowband.  The approach was shown to be still applicable when
-regularization is applied. Also, we perform 2D interpolation instead of
+regularization is applied.  In addition, we perform 2D interpolation instead of
 separable 1D interpolations, which may help explain some improvement seen
-in the noisy lateral direction.
+in the relatively noisy lateral direction.
 
 Of course, real-world sinc interpolation has limitations due to quantization and
 finite window lengths.  A similar approach that may have better performance is
-that incorporated into the motion-tracking algorithm by Brusseau et al.
+one that is incorporated into the motion-tracking algorithm by Brusseau et al.
 [Brusseau2008]_.  Determination of a subsample normalized
-cross-correlation peak is part of an optimization approach earlier in the process;
-each subsample-shift calculation of the normalized cross-correlation involves resampling of the
+cross-correlation peak is part of an optimization approach earlier in the process; with
+each subsample-shift calculation of the normalized cross-correlation involving  resampling of the
 post-deformation image over the area of the matching-block.  However, this has a
-much higher computational expense.
+significantly higher computational expense cost.
 
 As seen in |interp_method_plot|, as long the optimization method can robustly
 converge to the solution, the choice of optimization method does not affect the
 accuracy of the result.  This particular problem is well-behaved and does not
-require complex optimization methods.  There are only two parameters, the axial
-and lateral displacements, we initialize the problem close to the solution, and
+require complex optimization methods, with only two parameters, the axial
+and lateral displacements.  If the problem is initialized close to the solution, and
 the similarity metric is smooth and without local maxima in the subsample
-location of the peak.
+location of the peak, the peak location is estimated accurately.
 
 While 2D sinc-interpolation based subsample displacement estimation was
 infeasible in the past, acceleration of computation speeds and application of an
@@ -478,7 +488,7 @@ advances in computing speed will occur with multi-core CPUs and general purpose
 GPUs (GPGPUs), so parallelization is an important property of an algorithm.  The
 proposed algorithm is parallizable across each displacement pixel.  In our
 tests, the Nelder-Mead simplex achieved convergence close to the gradient
-descent method.  While gradient descent methods often converge in fewer
+descent method.  While gradient descent methods often converge with fewer
 iterations than gradient-free methods like the Nelder-Mead simplex, they also
 require calculation of the gradient at each iteration, which is computationally
 expensive in this case.
@@ -491,8 +501,8 @@ higher than four samples.  The Welch, Lanczos, or Cosine windows should be used
 to take the greatest advantage of the given radius, and the Hamming window
 should be avoided.
 
-6. Figure captions
-==================
+Figure captions
+===============
 
   **Figure 1:** |interp_method_caption|
 
@@ -504,14 +514,14 @@ should be avoided.
 
   **Figure 5:** |simplex_offset_caption|
 
-5. Acknowledgements
-===================
+Acknowledgements
+================
 
 This work is supported in part by NIH grants R21 EB010098-01, R01 NS064034-01A2,
 R01 CA111289-01A2 and R01CA112192-S103.  Mr. McCormick was also supported by
 Grant Number T90DK070079 and R90DK071515 from the National Institute of Diabetes
 and Digestive and Kidney Diseases.
 
-7. References
-=============
+References
+==========
 
