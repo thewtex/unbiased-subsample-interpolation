@@ -63,8 +63,8 @@ reconstruction.
 
 ----------------
 
-Introduction
-============
+1 Introduction
+==============
 
 Accurate and precise sub-sample estimation of displacements is a critical issue
 with ultrasound elastography.  The recent movement towards transducers with
@@ -158,11 +158,11 @@ examine the optimal sinc-filtering window length and type, and the computational
 performance of the Nelder-Mead simplex and a regular step gradient descent
 optimizer.
 
-Materials and Method
-====================
+2 Materials and Method
+======================
 
-Subsample interpolation algorithm
----------------------------------
+2.1 Subsample interpolation algorithm
+-------------------------------------
 
 In the article by Cespedes et al., a binary search algorithm improved the time
 required to localize the subsample 1D cross-correlation peak.  The approach
@@ -216,8 +216,8 @@ optimization until reaching convergence, which was defined with a minimum step l
 the regular-step gradient descent method and a parameter tolerance with the
 Nelder-Mead simplex method.
 
-Motion tracking algorithm
--------------------------
+2.2 Motion tracking algorithm
+-----------------------------
 
 The proposed subsample interpolation algorithm was used within an ultrasound block-matching
 motion tracking context.  Normalized cross-correlation was used as a similarity
@@ -254,8 +254,8 @@ in the axial direction and 0.075 in the lateral direction.
 Effectiveness of the algorithm was tested on both tissue-mimicking phantom
 and simulated ultrasound images.
 
-Tissue-mimicking phantom
-------------------------
+2.3 Tissue-mimicking phantom
+----------------------------
 
 We collected ultrasound RF data on a TM phantom with a clinical ultrasound
 scanner, the Siemens S2000 (Siemens Ultrasound, Mountain View, CA, USA).  The
@@ -280,8 +280,8 @@ A TM phantom with a spherical inclusion, a common test object for ultrasound
 elastography, was also imaged.  The inclusion was stiffer than the background and
 the phantom subject to a compression of 1.0% strain.
 
-Ultrasound and mechanics simulation
------------------------------------
+2.4 Ultrasound and mechanics simulation
+---------------------------------------
 
 Computer simulations were performed intended to model the ultrasound and
 mechanical behavior of the clinical system and TM phantom.  A numercial phantom was
@@ -331,8 +331,8 @@ Intel Core i5 CPU clocked at 3.2 GHz.  We also measured the effect of the initia
 simplex offset on the number of iterations required for convergence when using the
 Nelder-Mead optimization method.
 
-Results
-=======
+3 Results
+=========
 
 .. |interp_method_plot| replace:: Fig. 1
 
@@ -341,10 +341,10 @@ Results
   Performance of interpolation methods as measured with the *SNRe* for 2D sinc
   interpolation using either Nelder-Mead simplex or regular-step gradient
   descent, parabolic interpolation, cosine interpolation, or no interpolation.
-  a) TM phantom axial *SNRe* with no regulation, b) TM phantom lateral *SNRe* with no regulation,
+  a) TM phantom axial *SNRe* with no regularization, b) TM phantom lateral *SNRe* with no regularization,
   c) TM phantom axial *SNRe* with Bayesian regularization, d) TM phantom lateral *SNRe* with Bayesian
   regularization,
-  e) simulation axial *SNRe* with no regulation, f) simulation lateral *SNRe* with no regulation,
+  e) simulation axial *SNRe* with no regularization, f) simulation lateral *SNRe* with no regularization,
   g) axial *SNRe* with Bayesian regularization, and h) lateral *SNRe* with Bayesian
   regularization.
 
@@ -456,8 +456,8 @@ Sinc-gradient-descent      277  ± 6
   Number of iterations until convergence is reached given the initial simplex
   offset for both directions in samples.
 
-Discussion
-==========
+4 Discussion
+============
 
 Bias errors that occur with parametric interpolation methods can be attributed
 to a mismatch between the underlying function being interpolated and the
@@ -511,8 +511,8 @@ higher than four samples.  The Welch, Lanczos, or Cosine windows should be used
 to take the greatest advantage of the given radius, and the Hamming window
 should be avoided.
 
-Figure captions
-===============
+5 Figure captions
+=================
 
   **Figure 1:** |interp_method_caption|
 
@@ -524,14 +524,14 @@ Figure captions
 
   **Figure 5:** |simplex_offset_caption|
 
-Acknowledgements
-================
+6 Acknowledgements
+==================
 
 This work is supported in part by NIH grants R21 EB010098-01, R01 NS064034-01A2,
 R01 CA111289-01A2 and R01CA112192-S103.  Mr. McCormick was also supported by
 Grant Number T90DK070079 and R90DK071515 from the National Institute of Diabetes
 and Digestive and Kidney Diseases.
 
-References
-==========
+7 References
+============
 
