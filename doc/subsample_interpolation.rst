@@ -276,6 +276,10 @@ obtain an uncorrelated scattering field, and the set of deformed images were
 re-collected.  This process was repeated to obtain 30 independent trials at each
 strain magnitude.
 
+A TM phantom with a spherical inclusion, a common test object for ultrasound
+elastography, was also imaged.  The inclusion was stiffer than the background and
+the phantom subject to a compression of 1.0% strain.
+
 Ultrasound and mechanics simulation
 -----------------------------------
 
@@ -365,21 +369,27 @@ expected.  The same ranking that resulted in the no regularization case also
 occurs with regularization, although the difference between sinc and parabolic
 interpolation is reduced.
 
-.. |convergence_tolerance_plot| replace:: Fig. 2
+.. |inclusion_figure| replace:: Fig. 2
 
-.. |convergence_tolerance_caption| replace::
+.. |inclusion_caption| replace::
 
-  Affect of the parameter convergence tolerance with Nelder-Mead simplex
-  optimization.  The tolerance was defined equally in both directions in units
-  of samples.  a) TM phantom axial *SNRe* with no regularization and b) TM
-  phantom lateral *SNRe* with no regularization.
+  Axial strain of an inclusion phantom subject to 1.0% strain magnitude.  a) no
+  interpolation, b) cosine interpolation, c), parabolic interpolation, and d)
+  optimized sinc interpolation.  Regularization was not applied in these images.
+
+Images of the inclusion phantom's axial strain, |inclusion_figure|,  after compression to 1.0% strain
+reflect the outcomes on the uniform phantom.  Image quality with no
+interpolation and cosine interpolation significantly poorer that parabolic or
+sinc interpolation.  The improvement of sinc interpolation over parabolic
+interpolation is less pronounced, but still significant.  No regularization was
+applied, so some noise still exists.
 
 The dependence on the displacement convergence tolerance with the Nelder-Mead
-simplex optimization method is shown in |convergence_tolerance_plot|.  The
-tolerance is specified in units of data samples.  Surprisingly, the *SNRe* is
-relatively stable across a range of values.  Results in the regularization case
-and on simulation data were similar and are omitted for brevity.  A tolerance
-of 1e-5 samples appears to be sufficient to generate consistent results.
+simplex optimization method was studied.  The tolerance is specified in units of
+data samples.  Surprisingly, the *SNRe* is relatively stable across a range of
+values.  Results in the regularization case and on simulation data were similar
+and are omitted for brevity.  A tolerance of 1e-5 samples appears to be
+sufficient to generate consistent results.
 
 .. |window_type_plot| replace:: Fig. 3
 
@@ -506,7 +516,7 @@ Figure captions
 
   **Figure 1:** |interp_method_caption|
 
-  **Figure 2:** |convergence_tolerance_caption|
+  **Figure 2:** |inclusion_caption|
 
   **Figure 3:** |window_type_caption|
 
