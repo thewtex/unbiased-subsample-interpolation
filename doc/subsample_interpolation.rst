@@ -39,76 +39,77 @@ Abstract
 ========
 
 Accurate subsample displacement estimation is a necessity in ultrasound
-elastography because of the small motions that occur and application of a
-derivative operation on displacements.  Many commonly used subsample estimation
-techniques have a high amount of error because of bias.  In this paper we
-examine an unbiased approach subsample displacement estimations that consists of
-2D windowed-sinc interpolation with numerical optimization.  We find that a
-Welch or Lanczos window with Nelder-Mead simplex or regular-step gradient
-descent optimization is well suited
-for this purpose.  The strain signal-to-noise (SNRe) ratio is compared to other
-parabolic and cosine interpolation methods, and it is found that the SNRe is better while
-still providing reasonable computational performance, especially for small
-strains and tracking in the lateral direction..
+elastography because of the small deformations that occur and the subsequent
+application of a derivative operation on local displacements.  Many commonly
+used subsample estimation techniques introduce significant bias errors.  In this
+paper we examine an unbiased approach to subsample displacement estimations that
+consists of 2D windowed-sinc interpolation with numerical optimization.  We find
+that a Welch or Lanczos window with Nelder-Mead simplex or regular-step gradient
+descent optimization is well suited for this purpose.  Little improvement is
+seen with a sinc window radius greater than four data samples.  The strain
+signal-to-noise ratio is compared to other parabolic and cosine interpolation
+methods, and it is found that the strain signal-to-noise ratio is improved over
+parabolic interpolation from 11.0 to 13.6 in the axial direction and 0.7 to
+1.1 in the lateral direction at 1% axial strain.  The improvement was greatest
+for small strains and tracking in the lateral direction.  The applicability is
+proven not to rely on special properties of the image or similarity function by
+demonstrating its effectiveness after applying a regularization technique.
 
 
 ----------------
 
-**Key Words**: Subsample interpolation, strain imaging, motion tracking, and sinc
+**Key Words**: Subsample interpolation, strain imaging, motion tracking, sinc
 reconstruction.
 
 ----------------
 
-1. Introduction
-===============
+Introduction
+============
 
-Digital images present challenges in ultrasound motion tracking.  The sampling
-rates are barely sufficient to satisfy the Shannon-Nyquist sampling criterion.
-For example, a sampling rate of 40 MHz on the Siemens S2000 scanner is very
-close to the 20 MHz Nyquist frequency with its 18L6 transducer that purports to
-respond to frequencies up to 18 MHz.  In the lateral direction, where resolution
-is determined by transducer element spacing, sampling requirements are reduced.
-However, the sampling rate is usually an order of magnitude smaller in this
-direction.  Furthermore, noise is introduced into the post-deformation signal.
-These conditions are a concern when trying to perform ultrasounds strain imaging
-where displacement estimates need a precision on the order of micrometers;
-sample spacing in the axial direction is only 19 μm with a for a 40 MHz sampling
-rate.  Cespedes et al. [Cespedes1995]_ examined the theoretical values for time
+Accurate and precise sub-sample estimation of displacements is a critical issue
+with ultrasound elastography.  The recent movement towards transducers with
+higher center frequencies and broader bandwidths with the sampling frequencies
+barely satisfying the Shannon-Nyquist criterion have also demonstrated the need
+for accurate sub-sample estimation.
+Furthermore, noise is introduced into the post-deformation signal.
+These conditions are a concern when trying to perform ultrasound strain imaging
+where displacement estimates needs a precision on the order of micrometers;
+sample spacing in the axial direction is only 19 μm for a 40 MHz sampling
+rate.  Cespedes et al. [Cespedes1995]_ examined the theoretical limits for time
 delay estimation using cross correlation with parameters from a typical
 ultrasound system.  He found the standard deviation due to time quantization was 5.7
 ns, which is much larger than the Cramer-Rao Lower Bound (CRLB) for the continuous
 case, 0.024 ns.
 
 This subsample delay estimation problem has been studied extensively in 1D in
-the sonar and radar fields, where the use of cross-correlation as a similarity
-statistic is dominant.  If the signal is approximately narrowband,
-quadrature subsample delay techniques can be used [Maskell2002]_. (Tomy: do you
-know of other references to use here, possibly something by Kanai?).
+the sonar and radar fields, where use of cross-correlation as a similarity
+metric is dominant.  If the signal is approximately narrowband,
+quadrature subsample delay techniques can be used [Maskell2002]_.
 Maskell and Woods described a technique where the shift between signals is not
 determined by comparing them directly but by comparisons with shifted versions of
 a reference signal [Maskell1999]_.  The total delay is then determined to be the difference
 between the two delays to the reference signal.
 
-A number of techniques used the fact that phase of the analytic signal's
+A number of techniques use the fact that phase of the analytic signal's
 cross-correlation in the vicinity of the signal shift will have a slope
 equivalent to the nominal centroid frequency and zero crossing at the shift
 [MarpleJr1999,Pesavento1999]_.  Marple discusses the theory behind this method,
-and the scaling that must occur at the DC and Nyquist frequencies during
-calculation that should take place when dealing with discrete signals.
+and the scaling that must occur at the DC and Nyquist frequencies
+when dealing with discrete signals.
 Grennberg and Sandell described a fast subsample delay estimator calculated with
 the cross correlation of the delayed signal with the Hilbert transform of the
-original signal using an arcsine [Grennberg1994]_.  Other authors used a similar
-approach by taking the cross-correlation of base-band analytic signals from both
+original signal using an arcsine [Grennberg1994]_.  Other authors used similar
+approaches by taking the cross-correlation of base-band analytic signals from both
 the original and shifted signal [Pesavento1999,Fromageau2003]_.  The root is
 then found with an iterative modified Newton method.  This approach only works
 for narrowband signals with small time delays.  For larger time delays,
 strategies have to be employed to prevent phase aliasing.  However, if these
 approaches can be used, they are advantageous because they are very precise and
-have minimal computation that can be performed in a single step.  This approach only
-works for narrowband signals with small time delays.  In medical ultrasound, the
-signal normally only oscillates in the axial direction, so these methods can
+have minimal computational complexity can be performed in a single step.
+In medical ultrasound, the
+backscattered signal is generally beam-formed along the axial direction, so these methods can
 only be used to calculate axial displacements.  However, if unconventional
-beaming forming strategies are used, phase can also be tracked in the lateral
+beam forming strategies are used, phase can also be tracked in the lateral
 direction [Basarab2009]_.  Alternatively, a synthetic oscillatory signal can be
 generated by taking the inverse Fourier transform of half the transformed signal
 [Chen2004]_.  Instead of the more prevalent cross-correlation/Fourier methods,
@@ -117,30 +118,31 @@ Viola and Walker have worked on a sum-of-squared error/cubic spline method
 finding the roots of a polynomial whose order is proportional to the number
 samples in the fit.
 
-As studied by in [Viola2005]_, a more brute force to determining a more precise
+As studied by in [Viola2005]_, a straightforward and computationally intensive
+approach to determine a precise
 signal shift is to resample the image through interpolation before performing
-cross-correlation.  Use of a matched filter during resample may improve the
+cross-correlation.  Use of a matched filter during resampling may improve the
 result [Lai1999]_.  Instead of resampling and recalculation of the
 cross-correlation, curve fitting can be applied.  For example, a parabola
 [Boucher1981,Jacovitti1993,Foster1990,Moddemeijer1991,Lai1999]_ or cosine fit
 [deJong1990]_ can be used in 1D or an ellipsoid in 2D [Giunta1999]_.  These
 methods are computationally efficient and easy to implement, but they suffer
-from bias because the underlying signal may not conform to the shape chosen.
+from bias errors because the underlying signal may not conform to the shape chosen.
 [Zahiri-Azar2008,Geiman2000,Jacovitti1993,Moddemeijer1991,Cespedes1995]_.
 
-Curve fitting bias can be avoided by instead using signal reconstruction with
+Curve fitting bias erros can be avoided by using signal reconstruction with
 sinc interpolation, which is the maximum likelihood estimator for interpolation
 [Cespedes1995,Boucher1981]_.  Cespedes et al. examined the use of 1D sinc
 reconstruction to locate the cross-correlation peak, and found that it
 significantly out-performs parabolic or cosine interpolation.  Reconstruction is
-computationally expensive compared to curve fitting methods, and an optimization
-method must be utilized to find the peak location.  Cespedes used a binary
+computationally expensive, when compared to curve fitting methods, and an optimization
+method must be utilized to find the peak location.  Cespedes et al. used a binary
 search method to decrease computation times [Cespedes1995]_.
 
-It has also been demonstrated that 2D displacement vector estimates generate
-better results than two-pass 1D displacement estimation
+It has also been demonstrated that a simultaneous 2D displacement vector estimate will generate
+better results than two independent 1D displacement estimates
 [Konofagou1998,Chen2004,Geiman2000,Zahiri-Azar2008]_.  Sumi described an
-iterative 2D phase tracking technique [Sumi1999]_, and Ebbini described a similar technique
+iterative 2D phase tracking technique [Sumi1999]_, and Ebbini describes a similar technique
 that iteratively searches for the location where the gradient vectors of the 2D
 complex cross correlation are orthogonal, which exists along the zero-phase
 contour [Ebbini2006]_.
@@ -148,15 +150,15 @@ contour [Ebbini2006]_.
 In this paper, we propose the use of a 2D sinc reconstruction method coupled
 with traditional numerical optimization techniques for subsample ultrasound
 displacement estimation.  Since parabolic methods remain the most popular method
-referenced in the literature and to follow the analysis of Cespedes, we compare
+referenced in the literature and to follow the analysis of Cespedes et al., we compare
 the new method again parabolic and cosine curve fitting.  Performance is
-evaluated as the elastographic signal-to-noise ratio (*SNRe*) in phantoms and
+evaluated utilizing the variation in the elastographic signal-to-noise ratio (*SNRe*) in tissue-mimicking (TM) experimental phantoms and
 simulations.  We examine the optimal sinc-filtering window length and type, and
 the computational performance of the Nelder-Mead simplex and a regular step
 gradient descent optimizer.
 
-2. Methods
-==========
+Materials and Method
+====================
 
 2.1 Subsample interpolation algorithm
 -------------------------------------
@@ -301,7 +303,7 @@ Following the analysis by Cespedes et al., we evaluated the effectiveness of the
 subsample interpolation method using the elastographic signal-to-noise ratio
 (*SNRe*).
 
-.. math:: SNR_e [dB] = 20 \log10 \; ( \frac {m_\varepsilon} {s_\varepsilon} ) \;\;\;\;\; (Eq.\; 3)
+.. math:: SNR_e = \frac {m_\varepsilon} {s_\varepsilon} \;\;\;\;\; (Eq.\; 3)
 
 *SNRe* was evaluated over the strain magnitude examined for both the TM phantom
 and simulation, in the axial and lateral directions, and with and without
