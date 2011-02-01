@@ -316,7 +316,8 @@ The *SNRe* estimate was evaluated over the applied deformations examined for
 both the TM phantom and numerical simulation, along the axial and lateral
 directions, and with and without regularization.  The normal strain,
 :math:`\varepsilon`, in direction *x* is the derivative of the displacement
-along direction *x* [Lai1993]_.  Twice the standard error calculated for the 30 trials
+along direction *x*, and if multiplied by 100 represents the percent elongation
+of a material [Lai1993]_.  Twice the standard error calculated for the 30 trials
 examined in each experiment was displayed in resulting plots.  Unless otherwise
 noted, a radius of four RF data samples was used with the Welch window and
 Nelder-Mead optimization.
