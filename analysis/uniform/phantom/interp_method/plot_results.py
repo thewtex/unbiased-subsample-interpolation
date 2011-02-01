@@ -60,7 +60,7 @@ class PlotResults( object ):
         plt.errorbar( s, m, e, label=str( curve_name ),
                 marker=self.markers[self.iden_index],
                 markeredgewidth=1.0, markevery=1, ms=9.0, alpha=0.5 )
-        plt.xlabel( 'Strain Percent' )
+        plt.xlabel( 'Strain Percent Magnitude' )
         plt.ylabel( snre_record_name + ', ' + reg_name )
         #plt.title( str( variable_name ))
         plt.legend( loc='best' )
