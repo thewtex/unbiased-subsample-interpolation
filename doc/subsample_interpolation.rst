@@ -42,8 +42,8 @@ Accurate subsample displacement estimation is a necessity in ultrasound
 elastography because of the small deformations that occur and the subsequent
 application of a derivative operation on local displacements.  Many of the commonly
 used subsample estimation techniques introduce significant bias errors.  In this
-paper we examine an unbiased approach to subsample displacement estimations that
-consists of two-dimensional windowed-sinc interpolation with numerical optimization.  We find
+paper an unbiased approach to subsample displacement estimations that
+consists of two-dimensional windowed-sinc interpolation with numerical optimization is examined.  It is shown
 that a Welch or Lanczos window with Nelder-Mead simplex or regular-step gradient
 descent optimization is well suited for this purpose.  Little improvement is
 seen with a sinc window radius greater than four data samples.  The strain
@@ -52,7 +52,7 @@ methods, and it is found that the strain signal-to-noise ratio is improved over
 parabolic interpolation from 11.0 to 13.6 in the axial direction and 0.7 to
 1.1 in the lateral direction for a applied 1% axial deformation.  The
 improvement was most significant for small strains and displacement tracking in
-the lateral direction.  The applicability of this approach is also
+the lateral direction.  The usefulness of this approach is also
 proven to not rely on special properties of the image or similarity function by
 demonstrating its effectiveness after applying a previously described regularization technique.
 
@@ -402,10 +402,9 @@ sufficient to generate consistent results.
 .. |window_type_caption| replace::
 
   Impact of the sinc window type on lateral *SNRe*.  Statistically significant
-  differences were not observed along the axial direction. a) TM phantom lateral
-  *SNRe* with no regularization, b) TM phantom lateral *SNRe* with
-  regularization, c) simulation lateral *SNRe* with no regularization, and d)
-  simulation lateral *SNRe* with regularization.
+  differences were not observed along the axial direction. a) lateral
+  *SNRe* with no regularization.  b) lateral *SNRe* with
+  regularization.
 
 The significance of the window type on the lateral *SNRe* is displayed in
 |window_type_plot|.  No significant impact was observed in the axial direction,
