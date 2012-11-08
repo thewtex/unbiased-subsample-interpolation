@@ -1,20 +1,16 @@
 ===================================================================
 An Approach to Unbiased Subsample Interpolation for Motion Tracking
 ===================================================================
-Matthew M. McCormick\ :sup:`1,2` and Tomy Varghese\ :sup:`1,2`
+Matthew M. McCormick\ :sup:`1` and Tomy Varghese\ :sup:`2`
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. highlights::
 
-  :sup:`1`\ Department of Biomedical Engineering
+  :sup:`1`\ Kitware, Inc
 
-  University of Wisconsin-Madison
+  28 Corporate Drive
 
-  Room 2130 Engineering Centers Building
-
-  1550 Engineering Drive
-
-  Madison, WI 53706-1609
+  Clifton Park, NY 12065
 
 ------------------
 
@@ -30,9 +26,18 @@ Matthew M. McCormick\ :sup:`1,2` and Tomy Varghese\ :sup:`1,2`
 
   Madison, WI 53705-2275
 
--------------------
+----------------
 
-Correspondence can be sent to matt@mmmccormick.com, tvarghese@wisc.edu.
+Correspondence can be sent to matt@mmmccormick.com, phone 518-371-3971.
+
+**Keywords**: Subsample interpolation, strain imaging, motion tracking, sinc
+reconstruction.
+
+**Acknowledgements**: This work is supported in part by NIH grants R21
+EB010098-01, R01 NS064034-01A2, and R01CA112192-S103.  Dr. McCormick was also
+supported by Grant Number T90DK070079 and R90DK071515 from the National
+Institute of Diabetes and Digestive and Kidney Diseases.
+
 
 
 Abstract
@@ -59,10 +64,6 @@ demonstrating its effectiveness after applying a previously described regulariza
 
 ----------------
 
-**Key Words**: Subsample interpolation, strain imaging, motion tracking, sinc
-reconstruction.
-
-----------------
 
 1. Introduction
 ===============
@@ -530,14 +531,6 @@ should be avoided.
 
   **Figure 5:** |simplex_offset_caption|
 
-6. Acknowledgements
-===================
-
-This work is supported in part by NIH grants R21 EB010098-01, R01 NS064034-01A2,
-and R01CA112192-S103.  Mr. McCormick was also supported by
-Grant Number T90DK070079 and R90DK071515 from the National Institute of Diabetes
-and Digestive and Kidney Diseases.
-
-7. References
+6. References
 =============
 
