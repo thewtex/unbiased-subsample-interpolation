@@ -131,7 +131,7 @@ cross-correlation, curve fitting can be applied.  For example, a parabola
 [deJong1990]_ can be used in 1D or an ellipsoid in 2D [Giunta1999]_.  These
 methods are computationally efficient and easy to implement, but they suffer
 from bias errors because the underlying signal may not conform to the shape chosen.
-[Zahiri-Azar2008,Geiman2000,Jacovitti1993,Moddemeijer1991,Cespedes1995]_.
+[Zahiri-Azar2008,Geiman2000,Jacovitti1993,Moddemeijer1991,Cespedes1995]_
 
 Curve fitting bias errors can be avoided by using signal reconstruction with
 sinc interpolation, which is the maximum likelihood estimator for interpolation

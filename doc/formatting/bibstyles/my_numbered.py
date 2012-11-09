@@ -45,8 +45,8 @@ name_first = 'f{. }. |v |l|, j',
 name_other = 'f{. }. |v |l|, j',
 initials = 'f',
 name_name_sep = (', ',' and '),
-book = '*%(title)s*. %(address)s: %(publisher)s. %(year)s.',
-article  = '%(title)s. *%(journal)s* %(volume)s, %(pages)s. %(year)s.',
+book = '*%(title)s*. %(address)s: %(publisher)s; %(year)s.',
+article  = '%(title)s. %(journal)s %(year)s; %(volume)s: %(pages)s.',
 techreport  = '"%(title)s". %(institution)s %(type)s %(number)s. %(year)s. %(url)s',
 inproceedings  = '"%(title)s". In %(editor)s (Eds.) *%(booktitle)s*, %(address)s: %(publisher)s. %(year)s.',
 incollection  = '"%(title)s". In %(editor)s (Eds.) *%(booktitle)s*, %(address)s: %(publisher)s. %(year)s.',
@@ -67,7 +67,7 @@ class CitationManager(shared.CitationManager):
 
 	################### CITATION FORMATTING ########################
 	def get_citation_label(self, entry, template=None):
-		return ("[%d]"%self.get_citation_rank(entry)).ljust(5)
+		return ("%d."%self.get_citation_rank(entry)).ljust(5)
 
 	def sortkey(self, bibentry):
 		return self.get_citation_rank(bibentry)
@@ -82,5 +82,5 @@ def format_inline_cite(entries, keys, all_keys) :
 			formatted_list.append(keys[i]) #keys appear for missing entries
 		else:
 			formatted_list.append('%d'%(all_keys.index(keys[i])+1))
-	return '[' + ", ".join(formatted_list)+']'
+	return ':sup:`' + ", ".join(formatted_list)+'`'
 
