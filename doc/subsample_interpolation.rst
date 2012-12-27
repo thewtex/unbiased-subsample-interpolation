@@ -518,19 +518,124 @@ higher than four samples.  The Welch, Lanczos, or Cosine windows should be used
 to take the greatest advantage of the given radius, and the Hamming window
 should be avoided.
 
-5. Figure captions
-==================
+5. Figures captions
+===================
 
-  **Figure 1:** |interp_method_caption|
+**Figure 1:** |interp_method_caption|
 
-  **Figure 2:** |inclusion_caption|
+**Figure 2:** |inclusion_caption|
 
-  **Figure 3:** |window_type_caption|
+**Figure 3:** |window_type_caption|
 
-  **Figure 4:** |window_length_caption|
+**Figure 4:** |window_length_caption|
 
-  **Figure 5:** |simplex_offset_caption|
+**Figure 5:** |simplex_offset_caption|
 
-6. References
+6. Figures 
+==========
+
+.. image:: images/interp_method_phantom_no_regularization_axial.png
+   :align: center
+   :scale: 65%
+
+**Figure 1a)**
+
+.. image:: images/interp_method_phantom_no_regularization_lateral.png
+   :align: center
+   :scale: 65%
+
+**Figure 1b)**
+
+.. image:: images/interp_method_phantom_regularization_axial.png
+   :align: center
+   :scale: 65%
+
+**Figure 1c)**
+
+.. image:: images/interp_method_phantom_regularization_lateral.png
+   :align: center
+   :scale: 65%
+
+**Figure 1d)**
+
+.. image:: images/interp_method_simulation_no_regularization_axial.png
+   :align: center
+   :scale: 65%
+
+**Figure 1e)**
+
+.. image:: images/interp_method_simulation_no_regularization_lateral.png
+   :align: center
+   :scale: 65%
+
+**Figure 1f)**
+
+.. image:: images/interp_method_simulation_regularization_axial.png
+   :align: center
+   :scale: 65%
+
+**Figure 1g)**
+
+.. image:: images/interp_method_simulation_regularization_lateral.png
+   :align: center
+   :scale: 65%
+
+**Figure 1h)**
+
+.. image:: images/inclusion_no_interp.png
+   :align: center
+   :scale: 65%
+
+**Figure 2a)**
+
+.. image:: images/inclusion_cosine.png
+   :align: center
+   :scale: 65%
+
+**Figure 2b)**
+
+.. image:: images/inclusion_parabolic.png
+   :align: center
+   :scale: 65%
+
+**Figure 2c)**
+
+.. image:: images/inclusion_amoeba.png
+   :align: center
+   :scale: 65%
+
+**Figure 2d)**
+
+.. image:: images/window_type_no_regularization_lateral.png
+   :align: center
+   :scale: 65%
+
+**Figure 3a)**
+
+.. image:: images/window_type_regularization_lateral.png
+   :align: center
+   :scale: 65%
+
+**Figure 3b)**
+
+.. image:: images/window_length_no_regularization_lateral.png
+   :align: center
+   :scale: 65%
+
+**Figure 4a)**
+
+.. image:: images/window_length_regularization_lateral.png
+   :align: center
+   :scale: 65%
+
+**Figure 4b)**
+
+.. image:: images/simplex_offset.png
+   :align: center
+   :scale: 65%
+
+**Figure 5)**
+
+7. References
 =============
 
