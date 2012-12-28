@@ -354,7 +354,7 @@ Nelder-Mead optimization method.
 
 .. |interp_method_caption| replace::
 
-  Performance of interpolation methods as compared using variations in the *SNRe* for 2D sinc
+  Performance of interpolation methods is shown by comparing variations in the *SNRe* for 2D sinc
   interpolation using either Nelder-Mead simplex or regular-step gradient
   descent, parabolic interpolation, cosine interpolation, or no interpolation.
   a) TM phantom axial *SNRe* with no regularization, b) TM phantom lateral *SNRe* with no regularization,
@@ -394,7 +394,7 @@ interpolation is reduced.
 
 .. |inclusion_caption| replace::
 
-  Axial strain distribution of an inclusion phantom subjected to 1.0% axial strain magnitude, with  a) no
+  Images demonstrate the axial strain distribution of an inclusion phantom subjected to 1.0% axial strain magnitude, with  a) no
   interpolation, b) cosine interpolation, c), parabolic interpolation, and d)
   optimized sinc interpolation.  Regularization was not applied in these images.
 
@@ -416,7 +416,7 @@ sufficient to generate consistent results.
 
 .. |window_type_caption| replace::
 
-  Impact of the sinc window type on lateral *SNRe*.  Statistically significant
+  Impact of the sinc window type on lateral *SNRe* is shown.  Statistically significant
   differences were not observed along the axial direction. a) lateral
   *SNRe* with no regularization.  b) lateral *SNRe* with
   regularization.
@@ -433,7 +433,7 @@ approximation windows for medical images while the Hamming is among the worst [M
 
 .. |window_length_caption| replace::
 
-  Impact of the sinc window radius in data samples.  The radius is the same in all
+  Impact of the sinc window radius in data samples is shown.  The radius is the same in all
   directions. a) lateral *SNRe* with no regularization for the simulation and
   TM phantom with 0.5% and 1.5% nominal strain magnitude.  b) the same quantity with
   regularization.
@@ -474,7 +474,7 @@ Sinc-gradient-descent      277  ± 6
 .. |simplex_offset_caption| replace::
 
   Number of iterations until convergence is reached given the initial simplex
-  offset for both directions in samples.
+  offset for both directions.
 
 4. Discussion and Conclusions
 =============================
