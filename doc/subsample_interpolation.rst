@@ -47,7 +47,7 @@ Accurate subsample displacement estimation is a necessity in ultrasound
 elastography because of the small deformations that occur and the subsequent
 application of a derivative operation on local displacements.  Many of the commonly
 used subsample estimation techniques introduce significant bias errors.  In this
-paper an unbiased approach to subsample displacement estimations that
+paper an reduced bias approach to subsample displacement estimations that
 consists of two-dimensional windowed-sinc interpolation with numerical optimization is examined.  It is shown
 that a Welch or Lanczos window with Nelder-Mead simplex or regular-step gradient
 descent optimization is well suited for this purpose.  Little improvement is
@@ -71,9 +71,9 @@ demonstrating its effectiveness after applying a previously described regulariza
 Accurate and precise sub-sample estimation of local displacements is critical
 for ultrasound elastography based applications.  Recent movement towards transducers with
 higher center frequencies and broader bandwidths with sampling frequencies
-barely satisfying the Shannon-Nyquist criterion have also underscore the need
+barely satisfying the Shannon-Nyquist criterion have also underscored the need
 for accurate sub-sample estimation.
-Furthermore, noise is introduced into the post-deformation signal.
+Furthermore, acoustic noise also complicates displacement estimation.
 These conditions are a concern when in ultrasound strain imaging
 where displacement estimates need a precision on the order of micrometers;
 sample spacing in the axial direction is only 19 μm for a 40 MHz sampling
@@ -200,7 +200,7 @@ Table 2.0 - Sinc window functions
 ============= =======================
 
 An interpolated normalized cross-correlation value, :math:`XCORR(x,y)` was calculated with
-the sampled correlation values across the radius, and the window,
+the sampled correlation values across the radius, and the window [Chen2004]_,
 
 .. math:: XCORR(x,y) = \sum_{i=\lfloor x \rfloor + 1 - m}^{\lfloor x \rfloor + m} \sum_{j=\lfloor y \rfloor + 1 - m}^{\lfloor y \rfloor + m} XCORR_{i,j} K(x-i) K(y-j) \;\;\;\;\; (Eq.\; 2)
 
@@ -235,7 +235,10 @@ the data was filtered with a discrete Gaussian with variance :math:`(f/2)^2`, wh
 is the decimation factor [Lindeberg1994]_.  Matching-block sizes varied linearly
 from the top to bottom level with axial length of 1.3 mm and lateral width of
 4.0mm at the top level to an axial length of 0.5 mm and lateral width of 2.2mm at
-the bottom level.  There was no block overlap.
+the bottom level.  There was no block overlap.  Although the time-bandwidth product
+of the windows used in this algorithm was small, the multi-resolution techniques along with
+peak-hopping and signal stretching avoids errors observed in algorithms without these
+features.
 
 To remove peak-hopping tracking errors, displacements with strains greater than
 15% magnitude were replaced with linearly interpolated values from outside the
@@ -263,7 +266,9 @@ and simulated numerical ultrasound images.
 We collected ultrasound RF data on a TM phantom using a clinical ultrasound
 scanner, the Siemens S2000 (Siemens Ultrasound, Mountain View, CA, USA).  The
 Siemens VFX9-4 linear array transducer acquired RF data at 40MHz with an
-excitation frequency of 8.9 MHz and at a depth of 5.5 cm.
+excitation frequency of 8.9 MHz and at a depth of 5.5 cm.  This system had a
+full-width-half-maximum fractional bandwidth of 65%. Samples were taken in the
+lateral direction every 0.12 mm.
 
 A 95×95×95 mm, uniformly elastic oil-gelatin phantom was placed in a rigid, low-friction
 container
@@ -295,7 +300,7 @@ array with 0.15mm lateral by 10mm elevational element dimensions, and 0.2 mm
 element pitch [Li1999]_.  Focusing was fixed at a 20mm depth.
 
 Displacements were applied to the scatterers assuming uni-axial compression of
-an incompressible material, i.e. local strains were opposite in sign and half the
+an incompressible material, i.e. lateral strains were opposite in sign and half the
 magnitude of the axial directions.  The same deformations applied to the TM
 phantom were simulated.  Axial displacements started from zero at the
 transducer surface to a negative value at the bottom of the simulated phantom
@@ -360,7 +365,12 @@ cosine, or no interpolation is shown in |interp_method_plot|.  The *SNRe* is
 shown across the range of strains in both the lateral and axial directions.   As
 shown in |interp_method_plot|\ a), no interpolation provides the worst performance,
 followed by cosine interpolation, parabolic interpolation, and windowed-sinc
-interpolation.  Lower *SNRe* arises for low strains from electronic and quantization noise artifacts
+interpolation.  While prior articles reported fewer bias errors with cosine
+interpolation relative to parabolic interpolation
+[Cespedes1995,Zahiri-Azar2008]_, differences in the signal or sampling rate may
+explain the better performance attributed to parabolic interpolation.
+
+Lower *SNRe* arises for low strains from electronic and quantization noise artifacts
 and increased signal decorrelation due to larger applied deformation.  For examples, once we reach 7% applied deformation, motion tracking was no longer effective
 due to signal decorrelation [Varghese1997]_. For all the subplots shown in |interp_method_plot|, sinc
 interpolation perform equally well regardless of the optimization method
@@ -467,10 +477,7 @@ Sinc-gradient-descent      277  ± 6
 
 Bias errors that occur with parametric interpolation methods can be attributed
 to a mismatch between the underlying function being interpolated and the
-parametric model.  While prior articles reported fewer bias errors with cosine
-interpolation relative to parabolic interpolation
-[Cespedes1995,Zahiri-Azar2008]_, differences in the signal or sampling rate may
-explain the better performance attributed to parabolic interpolation.  An
+parametric model.  An
 advantage of sinc interpolation is that it is theoretically unbiased
 [Cespedes1995]_, and therefore will perform optimally despite the underlying signal.
 Unlike some of methods discussed in the Introduction, this method is not
