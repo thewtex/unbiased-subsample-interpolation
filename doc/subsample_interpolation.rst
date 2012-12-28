@@ -36,30 +36,32 @@ reconstruction.
 **Acknowledgements**: This work is supported in part by NIH grants R21
 EB010098-01, R01 NS064034-01A2, and R01CA112192-S103.  Dr. McCormick was also
 supported by Grant Number T90DK070079 and R90DK071515 from the National
-Institute of Diabetes and Digestive and Kidney Diseases.
+Institute of Diabetes and Digestive and Kidney Diseases.  The authors are grateful
+to the editors for their helpful comments and Miss Carolyn Stolfi for assistance
+in editting the manuscript.
 
 
 
 Abstract
 ========
 
-Accurate subsample displacement estimation is a necessity in ultrasound
+Accurate subsample displacement estimation is necessary for ultrasound
 elastography because of the small deformations that occur and the subsequent
 application of a derivative operation on local displacements.  Many of the commonly
-used subsample estimation techniques introduce significant bias errors.  In this
-paper an reduced bias approach to subsample displacement estimations that
-consists of two-dimensional windowed-sinc interpolation with numerical optimization is examined.  It is shown
+used subsample estimation techniques introduce significant bias errors.  This
+paper addresses a reduced bias approach to subsample displacement estimations that
+consists of two-dimensional windowed-sinc interpolation with numerical optimization.  It is shown
 that a Welch or Lanczos window with Nelder-Mead simplex or regular-step gradient
-descent optimization is well suited for this purpose.  Little improvement is
-seen with a sinc window radius greater than four data samples.  The strain
+descent optimization is well suited for this purpose.  Little improvement
+results from sinc window radius greater than four data samples.  The strain
 signal-to-noise ratio obtained in a uniformly elastic phantom is compared to other parabolic and cosine interpolation
-methods, and it is found that the strain signal-to-noise ratio is improved over
+methods; it is found that the strain signal-to-noise ratio is improved over
 parabolic interpolation from 11.0 to 13.6 in the axial direction and 0.7 to
 1.1 in the lateral direction for a applied 1% axial deformation.  The
 improvement was most significant for small strains and displacement tracking in
-the lateral direction.  The usefulness of this approach is also
-proven to not rely on special properties of the image or similarity function by
-demonstrating its effectiveness after applying a previously described regularization technique.
+the lateral direction.  This approach
+does not rely on special properties of the image or similarity function by
+demonstrating its effectiveness with the application of a previously described regularization technique.
 
 
 ----------------
@@ -70,18 +72,18 @@ demonstrating its effectiveness after applying a previously described regulariza
 
 Accurate and precise sub-sample estimation of local displacements is critical
 for ultrasound elastography based applications.  Recent movement towards transducers with
-higher center frequencies and broader bandwidths with sampling frequencies
-barely satisfying the Shannon-Nyquist criterion have also underscored the need
+higher center frequencies and broader bandwidths, with sampling frequencies
+barely satisfying the Shannon-Nyquist criterion, also underscore the need
 for accurate sub-sample estimation.
 Furthermore, acoustic noise also complicates displacement estimation.
-These conditions are a concern when in ultrasound strain imaging
-where displacement estimates need a precision on the order of micrometers;
+These conditions are a concern in ultrasound strain imaging
+where displacement estimates need precision on the order of micrometers;
 sample spacing in the axial direction is only 19 μm for a 40 MHz sampling
 rate.  Cespedes et al. [Cespedes1995]_ examined the theoretical limits for time
-delay estimation using cross correlation with parameters from a typical
-ultrasound system.  He found that the standard deviation due to time quantization was 5.7
+delay estimation using cross-correlation with parameters from a typical
+ultrasound system.  They found that the standard deviation due to time quantization was 5.7
 ns, which is much larger than the Cramer-Rao Lower Bound (CRLB) for the continuous
-case, 0.024 ns.
+case: 0.024 ns.
 
 This subsample delay estimation problem has been studied extensively in
 one-dimension (1D) for
@@ -100,14 +102,14 @@ equivalent to the nominal centroid frequency and zero crossing at the shift
 and the scaling that must occur at the DC and Nyquist frequencies
 when dealing with discrete signals.
 Grennberg and Sandell described a fast subsample delay estimator calculated with
-the cross correlation of the delayed signal with the Hilbert transform of the
+the cross-correlation of the delayed signal with the Hilbert transform of the
 original signal using an arcsine [Grennberg1994]_.  Other authors used similar
 approaches by taking the cross-correlation of base-band analytic signals from both
 the original and shifted signals [Pesavento1999,Fromageau2003]_.  The root is
 then found with an iterative modified Newton method.  This approach only works
 for narrowband signals with small time delays.  For larger time delays,
-strategies have to be employed to prevent phase aliasing.  However, if these
-approaches can be used, they are advantageous because they are very precise,
+strategies have to be employed to prevent phase aliasing.  However, when used these
+approaches are advantageous because they are very precise,
 have minimal computational complexity, and can be performed in a single step.
 In medical ultrasound, the
 backscattered signal is generally beam-formed along the axial direction, so these methods can
@@ -133,11 +135,11 @@ methods are computationally efficient and easy to implement, but they suffer
 from bias errors because the underlying signal may not conform to the shape chosen.
 [Zahiri-Azar2008,Geiman2000,Jacovitti1993,Moddemeijer1991,Cespedes1995]_
 
-Curve fitting bias errors can be avoided by using signal reconstruction with
+Curve fitting bias errors can be avoided using signal reconstruction with
 sinc interpolation, which is the maximum likelihood estimator for interpolation
 [Cespedes1995,Boucher1981]_.  Cespedes et al. examined the use of 1D sinc
-reconstruction to locate the cross-correlation peak, and found that it
-significantly out-performs parabolic or cosine interpolation.  Reconstruction is
+reconstruction to locate the cross-correlation peak and found that it
+significantly out performs parabolic or cosine interpolation.  Reconstruction is
 computationally expensive, when compared to curve fitting methods, and an optimization
 method must be utilized to find the peak location.  Cespedes et al. used a binary
 search method to decrease computation times [Cespedes1995]_.
@@ -183,7 +185,7 @@ We obtained subsample displacements values with 2D sinc interpolation
 .. math:: K(t) =  w(t) sinc(t) = w(t) \frac{\sin(\pi t)}{\pi t} \;\;\;\;\; (Eq.\; 1)
 
 where w(t) denotes the window function.  We examined different window
-functions shown in Table 2.0 [Meijering1999,Yoo2002]_,  Here *m* is the window
+functions shown in Table 2.0 [Meijering1999,Yoo2002]_.  Here, *m* is the window
 radius; the window is non-zero from *-m* to *m*.
 
 Table 2.0 - Sinc window functions
@@ -246,7 +248,7 @@ erroneous region.  To improve correlation, matching-blocks at lower levels were
 compressed according to the strain estimated at the previous level
 [Chaturvedi1998]_.  The
 matching block was scaled by a factor of :math:`1+\varepsilon_d`, where :math:`\varepsilon_d`
-is the strain in direction *d*, at its center and resampled using sinc interpolation
+is the strain in direction *d* at its center and resampled using sinc interpolation
 with a Lanczos window and radius four.
 
 In order to demonstrate that the proposed method is effective in finding the
@@ -273,10 +275,10 @@ lateral direction every 0.12 mm.
 A 95×95×95 mm, uniformly elastic oil-gelatin phantom was placed in a rigid, low-friction
 container
 and imaged from the top surface.  Uni-axial, uniform, unconstrained compression was
-applied by placing the surface of the transducer in an acrylic plate.  Slip
+applied by placing the transducer surface in an acrylic plate.  Slip
 boundary conditions were maintained at the interface of the phantom and plate by
 ensuring adequate oil was present for lubrication.  Precise deformations in the
-directions intended were achieved by a motion table with three linear degrees of
+intended directions were achieved by a motion table with three linear degrees of
 freedom and two rotational degrees of freedom.  A reference RF frame was
 collection along with post-deformation frames at 0.5%, 1.0%, 3.0%, 5.0%, and
 7.0% axial strain magnitude.  The position of the transducer was rotated and translated to
@@ -291,7 +293,7 @@ the phantom was subjected to a compression of 1.0% axial strain.
 2.4 Ultrasound and mechanics simulation
 ---------------------------------------
 
-Computer simulations were also performed intended to model the ultrasound and
+Computer simulations were also performed to model the ultrasound and
 mechanical behavior of the clinical system and TM phantom.  A numerical phantom was
 generated by simulating randomly positioned acoustic scatterers over a
 40×40×10mm volume.  A transducer was modeled with a Gaussian spectrum having a
@@ -318,6 +320,8 @@ subsample interpolation method using the elastographic signal-to-noise ratio
 
 .. math:: SNR_e = \frac {m_\varepsilon} {s_\varepsilon} \;\;\;\;\; (Eq.\; 3)
 
+where :math:`m_\varepsilon` and :math:`s_\varepsilon` are the mean and standard deviation
+of the strain in a uniform phantom undergoing uni-axial compression.
 The *SNRe* estimate was evaluated over the applied deformations examined for
 both the TM phantom and numerical simulation, along the axial and lateral
 directions, and with and without regularization.  The normal strain,
@@ -371,10 +375,10 @@ interpolation relative to parabolic interpolation
 explain the better performance attributed to parabolic interpolation.
 
 Lower *SNRe* arises for low strains from electronic and quantization noise artifacts
-and increased signal decorrelation due to larger applied deformation.  For examples, once we reach 7% applied deformation, motion tracking was no longer effective
+and increased signal decorrelation due to larger applied deformation.  For example, once we reach 7% applied deformation, motion tracking was no longer effective
 due to signal decorrelation [Varghese1997]_. For all the subplots shown in |interp_method_plot|, sinc
 interpolation perform equally well regardless of the optimization method
-utilized.  In the axial direction with no regularization, sinc interpolation is
+used.  In the axial direction with no regularization, sinc interpolation is
 better than parabolic interpolation, but only significantly at lower applied
 deformation, e.g. 0.5% and 1.0%.  Due to ultrasound's anisotropic resolution, lateral *SNRe* in
 |interp_method_plot|\ b) is generally much lower than |interp_method_plot|\ a).
@@ -396,13 +400,13 @@ interpolation is reduced.
 
 Images of the inclusion phantom's axial strain, |inclusion_figure|,  after compression to 1.0% strain
 reflect the outcomes on the uniform phantom.  Image quality with no
-interpolation and cosine interpolation significantly poorer that parabolic or
+interpolation and cosine interpolation was significantly poorer than parabolic or
 sinc interpolation.  The improvement of sinc interpolation over parabolic
 interpolation is less pronounced, but still significant.  No regularization was
 applied, so some noise artifacts remain.
 
-The dependence on the displacement convergence tolerance with the Nelder-Mead
-simplex optimization method was also studied.  The tolerance is specified in units of
+We also studied the dependence on the displacement convergence tolerance with the Nelder-Mead
+simplex optimization method.  The tolerance is specified in units of
 data samples.  Surprisingly, the *SNRe* is relatively stable across a range of
 values.  Results in the regularization case and on simulation data were similar
 and are omitted for brevity.  A tolerance of 1e-5 samples appears to be
@@ -419,11 +423,11 @@ sufficient to generate consistent results.
 
 The significance of the window type on the lateral *SNRe* is displayed in
 |window_type_plot|.  No significant impact was observed in the axial direction,
-and the lateral impact appears to be small but significant even though a
+and the lateral impact appears to be small but significant, even though a
 generous radius of four samples was used.  The Hamming window provides the worst
-performance, which is consistent with the study conducted Meijering et al. where
-it was concluded that Welch, Cosine, and Lanczos windows are some of the best sinc
-approximation windows for medical images, while the Hamming is among the worst [Meijering1999]_.
+performance, which is consistent with the study conducted Meijering et al.,
+which concluded that Welch, Cosine, and Lanczos windows are among the best sinc
+approximation windows for medical images while the Hamming is among the worst [Meijering1999]_.
 
 .. |window_length_plot| replace:: Fig. 4
 
@@ -446,9 +450,9 @@ content of the similarity function, which decreases the need for an expansive in
 Since the two optimization methods generate similar results, the preferred
 optimization method would be the one with improved computational efficiency.  Table 3.0 shows mean optimization
 for a subsample displacement calculation.  While sinc interpolation is much more
-computationally expensive than the parametric methods, the times required are
+computationally expensive than the parametric methods, the required time is
 still feasible for real-time imaging.  Nelder-Mead simplex optimization is
-slightly faster than gradient descent optimization, but they are very close.
+slightly faster than gradient descent optimization.
 Figure 5 shows that the best initial simplex offset in samples is approximately 0.2-0.3 samples.
 However, a poor choice for an initial simplex offset only generates about a 5%
 increase in optimization time.
@@ -479,12 +483,12 @@ Bias errors that occur with parametric interpolation methods can be attributed
 to a mismatch between the underlying function being interpolated and the
 parametric model.  An
 advantage of sinc interpolation is that it is theoretically unbiased
-[Cespedes1995]_, and therefore will perform optimally despite the underlying signal.
-Unlike some of methods discussed in the Introduction, this method is not
+[Cespedes1995]_, and therefore will perform optimally, despite the underlying signal.
+Unlike some of the methods discussed in the Introduction, this method is not
 dependent on the similarity metric being normalized cross-correlation, for
 example, or the
-signal being narrowband.  The approach was shown to be still applicable when
-regularization is applied.  In addition, we perform 2D interpolation instead of
+signal being narrowband.  The approach remained applicable when
+regularization is applied.  In addition, we performed 2D interpolation instead of
 separable 1D interpolations, which may help explain some improvement seen
 in the relatively noisy lateral direction.
 
