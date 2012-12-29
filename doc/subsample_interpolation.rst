@@ -33,12 +33,12 @@ Correspondence can be sent to matt@mmmccormick.com, phone 518-371-3971.
 **Keywords**: Subsample interpolation, strain imaging, motion tracking, sinc
 reconstruction.
 
-**Acknowledgements**: This work is supported in part by NIH grants R21
+**Acknowledgments**: This work is supported in part by NIH grants R21
 EB010098-01, R01 NS064034-01A2, and R01CA112192-S103.  Dr. McCormick was also
 supported by Grant Number T90DK070079 and R90DK071515 from the National
 Institute of Diabetes and Digestive and Kidney Diseases.  The authors are grateful
 to the editors for their helpful comments and Miss Carolyn Stolfi for assistance
-in editting the manuscript.
+in editing the manuscript.
 
 
 
@@ -320,7 +320,7 @@ subsample interpolation method using the elastographic signal-to-noise ratio
 
 .. math:: SNR_e = \frac {m_\varepsilon} {s_\varepsilon} \;\;\;\;\; (Eq.\; 3)
 
-where :math:`m_\varepsilon` and :math:`s_\varepsilon` are the mean and standard deviation
+That is, the mean and standard deviation
 of the strain in a uniform phantom undergoing uni-axial compression.
 The *SNRe* estimate was evaluated over the applied deformations examined for
 both the TM phantom and numerical simulation, along the axial and lateral
