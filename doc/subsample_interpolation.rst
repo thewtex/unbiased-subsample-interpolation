@@ -270,7 +270,8 @@ scanner, the Siemens S2000 (Siemens Ultrasound, Mountain View, CA, USA).  The
 Siemens VFX9-4 linear array transducer acquired RF data at 40MHz with an
 excitation frequency of 8.9 MHz and at a depth of 5.5 cm.  This system had a
 full-width-half-maximum fractional bandwidth of 65%. Samples were taken in the
-lateral direction every 0.12 mm.
+lateral direction every 0.12 mm.  The resolution in the lateral direction was 1.4mm,
+which was measured on a wire-target phantom.
 
 A 95×95×95 mm, uniformly elastic oil-gelatin phantom was placed in a rigid, low-friction
 container

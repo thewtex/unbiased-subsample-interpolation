@@ -76,9 +76,8 @@ The following details were added:
 
 *This system had a
 full-width-half-maximum fractional bandwidth of 65%. Samples were taken in the
-lateral direction every 0.12 mm.*
-
-At this time, data is not readily available to approximate the lateral resolution, but it may be obtained if required.
+lateral direction every 0.12 mm.  The resolution in the lateral direction was 1.4mm,
+which was measured on a wire-target phantom.*
 
 **Comment 7**
 
