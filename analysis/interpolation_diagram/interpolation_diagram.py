@@ -84,4 +84,75 @@ ax.vlines([cosine_peak, true_peak], bias_ylim[0], bias_ylim[1])
 ax.annotate('bias', xy=(true_peak, 0.1), xytext=(true_peak+0.3, 0.0),
     arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.2'))
 
+ax = plt.subplot(223)
+ax.plot(xx, yy, label='XCORR')
+ax.plot([true_peak], [yy.max()], 'p')
+ax.set_xticklabels([])
+ax.set_yticklabels([])
+ax.set_xticks([])
+ax.set_yticks([])
+ax.set_xlabel('Displacement')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.plot(samples_x, j1(samples_x), 'o')
+ax.set_ylim([-0.3, 0.4])
+
+first_point_x = samples_x[1] + 0.3 * T_s
+first_point_y = j1(first_point_x)
+
+second_point_x = samples_x[1] - 0.4 * T_s
+second_point_y = j1(second_point_x)
+FancyArrowPatch = matplotlib.patches.FancyArrowPatch
+fa = FancyArrowPatch(posA=(first_point_x, first_point_y),
+    posB=(second_point_x, second_point_y),
+    arrowstyle='->,head_width=2.0,head_length=5.0',
+    connectionstyle='arc3,rad=-0.19'
+    )
+ax.add_artist(fa)
+ax.plot([first_point_x, second_point_x], [first_point_y, second_point_y], 'ko', markerfacecolor='none', markersize=3.0)
+ax.annotate('start', xy=(first_point_x-0.05, first_point_y-0.01), xytext=(true_peak, samples_y[2]+0.1),
+    arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.1'))
+
+first_point_x = second_point_x
+first_point_y = second_point_y
+
+second_point_x = samples_x[1] - 0.85 * T_s
+second_point_y = j1(second_point_x)
+FancyArrowPatch = matplotlib.patches.FancyArrowPatch
+fa = FancyArrowPatch(posA=(first_point_x, first_point_y),
+    posB=(second_point_x, second_point_y),
+    arrowstyle='->,head_width=2.0,head_length=5.0',
+    connectionstyle='arc3,rad=1.49'
+    )
+ax.add_artist(fa)
+ax.plot([first_point_x, second_point_x], [first_point_y, second_point_y], 'ko', markerfacecolor='none', markersize=3.0)
+
+first_point_x = second_point_x
+first_point_y = second_point_y
+
+second_point_x = samples_x[1] - 0.55 * T_s
+second_point_y = j1(second_point_x)
+FancyArrowPatch = matplotlib.patches.FancyArrowPatch
+fa = FancyArrowPatch(posA=(first_point_x, first_point_y),
+    posB=(second_point_x, second_point_y),
+    arrowstyle='->,head_width=2.0,head_length=5.0',
+    connectionstyle='arc3,rad=1.49'
+    )
+ax.add_artist(fa)
+ax.plot([first_point_x, second_point_x], [first_point_y, second_point_y], 'ko', markerfacecolor='none', markersize=3.0)
+
+first_point_x = second_point_x
+first_point_y = second_point_y
+
+second_point_x = samples_x[1] - 0.65 * T_s
+second_point_y = j1(second_point_x)
+FancyArrowPatch = matplotlib.patches.FancyArrowPatch
+fa = FancyArrowPatch(posA=(first_point_x, first_point_y),
+    posB=(second_point_x, second_point_y),
+    arrowstyle='->,head_width=2.0,head_length=5.0',
+    connectionstyle='arc3,rad=0.49'
+    )
+ax.add_artist(fa)
+ax.plot([first_point_x, second_point_x], [first_point_y, second_point_y], 'ko', markerfacecolor='none', markersize=3.0)
+
 plt.show()
