@@ -9,8 +9,10 @@ matplotlib.rc('legend', fontsize='medium')
 
 xx = np.arange(7.0, 11.2, 0.01)
 yy = j1(xx)
-fig = plt.figure(figsize=(6,6))
-ax = plt.subplot(221)
+figsize=(3,3)
+fig = plt.figure(1, figsize=figsize)
+figdpi=600
+ax = plt.subplot(111)
 ax.plot(xx, yy, label='XCORR')
 max_idx = yy.argmax()
 true_peak = xx[max_idx]
@@ -54,7 +56,11 @@ ax.vlines([parabolic_peak, true_peak], bias_ylim[0], bias_ylim[1])
 ax.annotate('bias', xy=(true_peak, 0.1), xytext=(true_peak+0.3, 0.0),
     arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.2'))
 
-ax = plt.subplot(222)
+fig.savefig('../../doc/images/diagram_parabolic_interpolation.png', dpi=figdpi)
+fig.savefig('../../doc/images/diagram_parabolic_interpolation.eps', dpi=figdpi)
+
+fig = plt.figure(2, figsize=figsize)
+ax = plt.subplot(111)
 ax.plot(xx, yy, label='XCORR')
 ax.plot([true_peak], [yy.max()], 'p')
 ax.set_xticklabels([])
@@ -84,7 +90,11 @@ ax.vlines([cosine_peak, true_peak], bias_ylim[0], bias_ylim[1])
 ax.annotate('bias', xy=(true_peak, 0.1), xytext=(true_peak+0.3, 0.0),
     arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.2'))
 
-ax = plt.subplot(223)
+fig.savefig('../../doc/images/diagram_cosine_interpolation.png', dpi=figdpi)
+fig.savefig('../../doc/images/diagram_cosine_interpolation.eps', dpi=figdpi)
+
+fig = plt.figure(3, figsize=figsize)
+ax = plt.subplot(111)
 ax.plot(xx, yy, label='XCORR')
 ax.plot([true_peak], [yy.max()], 'p')
 ax.set_xticklabels([])
@@ -154,5 +164,9 @@ fa = FancyArrowPatch(posA=(first_point_x, first_point_y),
     )
 ax.add_artist(fa)
 ax.plot([first_point_x, second_point_x], [first_point_y, second_point_y], 'ko', markerfacecolor='none', markersize=3.0)
+ax.legend(loc='lower left')
+
+fig.savefig('../../doc/images/diagram_sinc_interpolation.png', dpi=figdpi)
+fig.savefig('../../doc/images/diagram_sinc_interpolation.eps', dpi=figdpi)
 
 plt.show()
