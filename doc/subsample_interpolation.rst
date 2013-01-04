@@ -79,7 +79,8 @@ Furthermore, acoustic noise also complicates displacement estimation.
 These conditions are a concern in ultrasound strain imaging
 where displacement estimates need precision on the order of micrometers;
 sample spacing in the axial direction is only 19 μm for a 40 MHz sampling
-rate.  Cespedes et al. [Cespedes1995]_ examined the theoretical limits for time
+rate.  A reduction of subsample peak interpolation bias errors can extend the useful
+range of imaged strains for a given algorithm.  For Cespedes et al. [Cespedes1995]_ examined the theoretical limits for time
 delay estimation using cross-correlation with parameters from a typical
 ultrasound system.  They found that the standard deviation due to time quantization was 5.7
 ns, which is much larger than the Cramer-Rao Lower Bound (CRLB) for the continuous
@@ -172,12 +173,32 @@ optimizer.
 
 In the article by Cespedes et al. [Cespedes1995]_, a binary search algorithm improved the time
 required to localize the subsample 1D cross-correlation peak.
+The diagram in |method_diagram| explains how iterative sinc interpolation
+to find a subsample peak differs from parametric methods like parabolic or
+cosine fit.
 We framed this process as a multi-parameter, single-valued cost function numerical
 optimization problem.  We applied traditional numerical optimization methods that
 have quicker convergence properties than a binary search and can be applied to
 multiple parameters.  The cost function to be maximized was the cross-correlation
 function.  The parameters to be optimized were the axial and lateral
 displacements.
+
+.. |method_diagram| replace:: Fig. 1
+
+.. |method_diagram_caption| replace::
+
+    Diagrams of how a) parabolic interpolation, b) cosine interpolation, and c)
+    iterative sinc interpolation explains how peak interpolation is calculated in
+    each case and how bias arises.  For the parametric methods in a) and b), the
+    three samples around the peak are are interpolated with a function, show with
+    the dotted line, that does not necessarily match the underlying cross-correlation.
+    The displacement from the analytically determined the parameteric peak has a large
+    bias in a) or smaller bias in b) based on how well the form of the parametric
+    function matches the cross-correlation.  Iterative sinc interpolation shown in c)
+    is a different approach that results in reduced bias by applying a search for the subsample
+    peak that converges on the true peak.  Note that a 1D interpolation and optimization
+    is shown in c) for illustrative purposes, but the method discussed in this paper uses
+    both 2D interpolation and optimization.
 
 We obtained subsample displacements values with 2D sinc interpolation
 [Meijering1999,Yoo2002]_.  The sinc kernel, :math:`K(t)` is given by
@@ -205,6 +226,9 @@ An interpolated normalized cross-correlation value, :math:`XCORR(x,y)` was calcu
 the sampled correlation values across the radius, and the window [Chen2004]_,
 
 .. math:: XCORR(x,y) = \sum_{i=\lfloor x \rfloor + 1 - m}^{\lfloor x \rfloor + m} \sum_{j=\lfloor y \rfloor + 1 - m}^{\lfloor y \rfloor + m} XCORR_{i,j} K(x-i) K(y-j) \;\;\;\;\; (Eq.\; 2)
+
+The normalized cross-correlation values are the basis for interpolation, illustrated as the
+solid circles in |method_diagram|.
 
 In this article, two simple optimization methods were examined: a regular-step
 gradient descent and Nelder-Mead simplex (amoeba) optimization.  In the
@@ -239,10 +263,10 @@ from the top to bottom level with axial length of 1.3 mm and lateral width of
 4.0mm at the top level to an axial length of 0.5 mm and lateral width of 2.2mm at
 the bottom level.  There was no block overlap.  Although the time-bandwidth product
 of the windows used in this algorithm was small, the multi-resolution techniques along with
-peak-hopping and signal stretching avoids errors observed in algorithms without these
+false-peak and signal stretching avoids errors observed in algorithms without these
 features.
 
-To remove peak-hopping tracking errors, displacements with strains greater than
+To remove false-peak tracking errors, displacements with strains greater than
 15% magnitude were replaced with linearly interpolated values from outside the
 erroneous region.  To improve correlation, matching-blocks at lower levels were
 compressed according to the strain estimated at the previous level
@@ -284,7 +308,7 @@ freedom and two rotational degrees of freedom.  A reference RF frame was
 collection along with post-deformation frames at 0.5%, 1.0%, 3.0%, 5.0%, and
 7.0% axial strain magnitude.  The position of the transducer was rotated and translated to
 obtain an uncorrelated scattering field, and the set of deformed frames were
-re-collected.  This process was repeated to obtain 30 independent trials at each
+re-collected.  This process was repeated to collect 30 independent trials at each
 applied deformation.
 
 A TM phantom with a spherical inclusion, a common test object for ultrasound
@@ -328,9 +352,8 @@ both the TM phantom and numerical simulation, along the axial and lateral
 directions, and with and without regularization.  The normal strain,
 :math:`\varepsilon`, in direction *x* is the derivative of the displacement
 along direction *x*, and if multiplied by 100 represents the percent elongation
-of a material [Lai1993]_.  Twice the standard error calculated for the 30 trials
-examined in each experiment was displayed in resulting plots.  Unless otherwise
-noted, a radius of four RF data samples was used with the Welch window and
+of a material [Lai1993]_.  Error bars in the the results are two times the standard error computed over 30 trials for point.
+Unless otherwise noted, a radius of four RF data samples was used with the Welch window and
 Nelder-Mead optimization.
 
 Variations in the *SNRe* are used to compare sinc interpolation with numerical optimization via
@@ -351,7 +374,7 @@ Nelder-Mead optimization method.
 3. Results
 ==========
 
-.. |interp_method_plot| replace:: Fig. 1
+.. |interp_method_plot| replace:: Fig. 2
 
 .. |interp_method_caption| replace::
 
@@ -391,7 +414,7 @@ expected with improved *SNRe*.  The same ranking that resulted in the no regular
 occurs with regularization, although the difference between sinc and parabolic
 interpolation is reduced.
 
-.. |inclusion_figure| replace:: Fig. 2
+.. |inclusion_figure| replace:: Fig. 3
 
 .. |inclusion_caption| replace::
 
@@ -413,7 +436,7 @@ values.  Results in the regularization case and on simulation data were similar
 and are omitted for brevity.  A tolerance of 1e-5 samples appears to be
 sufficient to generate consistent results.
 
-.. |window_type_plot| replace:: Fig. 3
+.. |window_type_plot| replace:: Fig. 4
 
 .. |window_type_caption| replace::
 
@@ -430,7 +453,7 @@ performance, which is consistent with the study conducted Meijering et al.,
 which concluded that Welch, Cosine, and Lanczos windows are among the best sinc
 approximation windows for medical images while the Hamming is among the worst [Meijering1999]_.
 
-.. |window_length_plot| replace:: Fig. 4
+.. |window_length_plot| replace:: Fig. 5
 
 .. |window_length_caption| replace::
 
@@ -440,7 +463,7 @@ approximation windows for medical images while the Hamming is among the worst [M
   regularization.
 
 Content in the sinc interpolation calculation is determined by both the window
-type and the window radius.  Figure 4 shows the effect of window
+type and the window radius.  Figure 5 shows the effect of window
 radius in data samples on the lateral *SNRe*.  Axial *SNRe* results are similar.
 For both the cases of regularization and no regularization, a radius of one or two samples is
 insufficient.  In the case of no regularization, improvements appear up to a
@@ -454,7 +477,7 @@ for a subsample displacement calculation.  While sinc interpolation is much more
 computationally expensive than the parametric methods, the required time is
 still feasible for real-time imaging.  Nelder-Mead simplex optimization is
 slightly faster than gradient descent optimization.
-Figure 5 shows that the best initial simplex offset in samples is approximately 0.2-0.3 samples.
+Figure 6 shows that the best initial simplex offset in samples is approximately 0.2-0.3 samples.
 However, a poor choice for an initial simplex offset only generates about a 5%
 increase in optimization time.
 
@@ -470,7 +493,7 @@ Sinc-Nelder-Mead           261  ± 5
 Sinc-gradient-descent      277  ± 6
 ======================= ===========================================
 
-.. |simplex_offset_plot| replace:: Fig. 5
+.. |simplex_offset_plot| replace:: Fig. 6
 
 .. |simplex_offset_caption| replace::
 
@@ -533,120 +556,140 @@ should be avoided.
 5. Figures captions
 ===================
 
-**Figure 1:** |interp_method_caption|
+**Figure 1:** |method_diagram_caption|
 
-**Figure 2:** |inclusion_caption|
+**Figure 2:** |interp_method_caption|
 
-**Figure 3:** |window_type_caption|
+**Figure 3:** |inclusion_caption|
 
-**Figure 4:** |window_length_caption|
+**Figure 4:** |window_type_caption|
 
-**Figure 5:** |simplex_offset_caption|
+**Figure 5:** |window_length_caption|
+
+**Figure 6:** |simplex_offset_caption|
 
 6. Figures 
 ==========
+
+.. image:: images/diagram_parabolic_interpolation.png
+   :align: center
+   :scale: 85%
+
+**Figure 1a)**
+
+.. image:: images/diagram_cosine_interpolation.png
+   :align: center
+   :scale: 85%
+
+**Figure 1b)**
+
+.. image:: images/diagram_sinc_interpolation.png
+   :align: center
+   :scale: 85%
+
+**Figure 1c)**
 
 .. image:: images/interp_method_phantom_no_regularization_axial.png
    :align: center
    :scale: 65%
 
-**Figure 1a)**
+**Figure 2a)**
 
 .. image:: images/interp_method_phantom_no_regularization_lateral.png
    :align: center
    :scale: 65%
 
-**Figure 1b)**
+**Figure 2b)**
 
 .. image:: images/interp_method_phantom_regularization_axial.png
    :align: center
    :scale: 65%
 
-**Figure 1c)**
+**Figure 2c)**
 
 .. image:: images/interp_method_phantom_regularization_lateral.png
    :align: center
    :scale: 65%
 
-**Figure 1d)**
+**Figure 2d)**
 
 .. image:: images/interp_method_simulation_no_regularization_axial.png
    :align: center
    :scale: 65%
 
-**Figure 1e)**
+**Figure 2e)**
 
 .. image:: images/interp_method_simulation_no_regularization_lateral.png
    :align: center
    :scale: 65%
 
-**Figure 1f)**
+**Figure 2f)**
 
 .. image:: images/interp_method_simulation_regularization_axial.png
    :align: center
    :scale: 65%
 
-**Figure 1g)**
+**Figure 2g)**
 
 .. image:: images/interp_method_simulation_regularization_lateral.png
    :align: center
    :scale: 65%
 
-**Figure 1h)**
+**Figure 2h)**
 
 .. image:: images/inclusion_no_interp.png
    :align: center
    :scale: 65%
 
-**Figure 2a)**
+**Figure 3a)**
 
 .. image:: images/inclusion_cosine.png
    :align: center
    :scale: 65%
 
-**Figure 2b)**
+**Figure 3b)**
 
 .. image:: images/inclusion_parabolic.png
    :align: center
    :scale: 65%
 
-**Figure 2c)**
+**Figure 3c)**
 
 .. image:: images/inclusion_amoeba.png
    :align: center
    :scale: 65%
 
-**Figure 2d)**
+**Figure 3d)**
 
 .. image:: images/window_type_no_regularization_lateral.png
    :align: center
    :scale: 65%
 
-**Figure 3a)**
+**Figure 4a)**
 
 .. image:: images/window_type_regularization_lateral.png
    :align: center
    :scale: 65%
 
-**Figure 3b)**
+**Figure 4b)**
 
 .. image:: images/window_length_no_regularization_lateral.png
    :align: center
    :scale: 65%
 
-**Figure 4a)**
+**Figure 5a)**
 
 .. image:: images/window_length_regularization_lateral.png
    :align: center
    :scale: 65%
 
-**Figure 4b)**
+**Figure 5b)**
 
 .. image:: images/simplex_offset.png
    :align: center
    :scale: 65%
 
-**Figure 5)**
+**Figure 6)**
 
 7. References
 =============
